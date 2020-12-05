@@ -53,8 +53,10 @@ bool Payment(int x)
 				{
 					cout << "Please enter the debit card number" << endl;
 					cin >> card;
-					
-
+					if (Length_of_card(card) == 9) {
+						cout << "The card is charged" << endl;
+						return true;
+					}
 				}
 				
 			}
