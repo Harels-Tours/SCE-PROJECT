@@ -18,51 +18,41 @@ int Length_of_card(int y)
 
 bool Payment(int x)
 {
-	pakage**h = get_pakage();
-	int price,id,card,i=0,cvc, Expire_dade;
-	string fullname,choise;
+	pakage** h = get_pakage();
+	int price, id, card, i = 0, cvc, Expire_dade;
+	string fullname;
+	bool choise = true;
 	while (h[i])
 	{
-		if (h[i].Serial == x) 
+		if (h[i].Serial == x)
 		{
-			price = h[i].price;
-			cout << "The price to pay is:" << price << endl;
-			cout << "Please enter your full name" << endl;
-			cin >> fullname;
-			cout << "Please enter your ID" << endl;
-			cin >> id;
-			cout << "Please enter the debit card number" << endl;
-			cin >> card;
-			cout << "Enter the expiration date of a card enter- 4 number 2 for month then 2 for year" << endl;
-			cin >> Expire_dade;
-			cout << "Insert the last 3 digits on the back of the card" << endl;
-			cin >> cvc;
-			if (Length_of_card(card) == 9) {
-				cout << "The card is charged" << endl;
-				return true;
-
-			}
-
-			else {
-				cout << "Invalid card" << endl;
-				cout<<"Want try again? Y-for yes N-for no:";
-				cin>>choise;
-				if(choise==N)
-					return false;
+			while (choise)
+			{
+				price = h[i].price;
+				cout << "The price to pay is:" << price << endl;
+				cout << "Please enter your full name" << endl;
+				cin >> fullname;
+				cout << "Please enter your ID" << endl;
+				cin >> id;
+				cout << "Please enter the debit card number" << endl;
+				cin >> card;
+				cout << "Enter the expiration date of a card enter- 4 number 2 for month then 2 for year" << endl;
+				cin >> Expire_dade;
+				cout << "Insert the last 3 digits on the back of the card" << endl;
+				cin >> cvc;
+				if (Length_of_card(card) == 9) {
+					cout << "The card is charged" << endl;
+					return true;
+				}
 				else
 				{
-					cout << "Please enter the debit card number" << endl;
-					cin >> card;
-					if (Length_of_card(card) == 9) {
-						cout << "The card is charged" << endl;
-						return true;
-					}
+					cout << "Invalid card" << endl;
+					cout << "if u want to try again Press 1-for yes or 0-for no:"
+					cin >> choise;
 				}
-				
 			}
-
 		}
-
 		i++;
 	}
+	return false;
 }
