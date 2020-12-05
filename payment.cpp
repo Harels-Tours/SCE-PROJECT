@@ -19,8 +19,8 @@ int Length_of_card(int y)
 bool Payment(int x)
 {
 	pakage** h = get_pakage();
-	int price, id, card, i = 0, cvc, Expire_dade;
-	string fullname;
+	int price, id, card, i = 0, cvc, Expire_date;
+	string full_name;
 	bool choise = true;
 	while (h[i])
 	{
@@ -31,13 +31,13 @@ bool Payment(int x)
 				price = h[i].price;
 				cout << "The price to pay is:" << price << endl;
 				cout << "Please enter your full name" << endl;
-				cin >> fullname;
+				cin >> full_name;
 				cout << "Please enter your ID" << endl;
 				cin >> id;
 				cout << "Please enter the debit card number" << endl;
 				cin >> card;
 				cout << "Enter the expiration date of a card enter- 4 number 2 for month then 2 for year" << endl;
-				cin >> Expire_dade;
+				cin >> Expire_date;
 				cout << "Insert the last 3 digits on the back of the card" << endl;
 				cin >> cvc;
 				if (Length_of_card(card) == 9) {
@@ -49,10 +49,11 @@ bool Payment(int x)
 					cout << "Invalid card" << endl;
 					cout << "if u want to try again Press 1-for yes or 0-for no:"
 					cin >> choise;
+					if (choise = 0)
+						return false;
 				}
 			}
 		}
 		i++;
 	}
-	return false;
 }
