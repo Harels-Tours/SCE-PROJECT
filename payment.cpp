@@ -20,7 +20,7 @@ bool Payment(int x)
 {
 	pakage**h = get_pakage();
 	int price,id,card,i=0,cvc, Expire_dade;
-	string fullname;
+	string fullname,choise;
 	while (h[i])
 	{
 		if (h[i].Serial == x) 
@@ -45,7 +45,18 @@ bool Payment(int x)
 
 			else {
 				cout << "Invalid card" << endl;
-				return false;
+				cout<<"Want try again? Y-for yes N-for no:";
+				cin>>choise;
+				if(choise==N)
+					return false;
+				else
+				{
+					cout << "Please enter the debit card number" << endl;
+					cin >> card;
+					
+
+				}
+				
 			}
 
 		}
