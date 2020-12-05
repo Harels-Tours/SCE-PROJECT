@@ -26,14 +26,14 @@ bool Payment(int x)
 	{
 		if (h[i].Serial == x)
 		{
+			price = h[i].price;
+			cout << "The price to pay is:" << price << endl;
+			cout << "Please enter your full name" << endl;
+			cin >> full_name;
+			cout << "Please enter your ID" << endl;
+			cin >> id;
 			while (choise)
 			{
-				price = h[i].price;
-				cout << "The price to pay is:" << price << endl;
-				cout << "Please enter your full name" << endl;
-				cin >> full_name;
-				cout << "Please enter your ID" << endl;
-				cin >> id;
 				cout << "Please enter the debit card number" << endl;
 				cin >> card;
 				cout << "Enter the expiration date of a card enter- 4 number 2 for month then 2 for year" << endl;
@@ -49,9 +49,9 @@ bool Payment(int x)
 					cout << "Invalid card" << endl;
 					cout << "if u want to try again Press 1-for yes or 0-for no:"
 					cin >> choise;
-					if (choise = 0)
-						return false;
 				}
+					if (choise == 0)
+						return false;
 			}
 		}
 		i++;
