@@ -90,8 +90,12 @@ void main_menu()
 	case 2:
 		register_user();
 		break;
+	case 3:
+		exit(1);
+		break;
 	default:
-		std::cout << "wrong input,bye bye\n!";
+		std::cout << "wrong input,try again\n!";
+		main_menu();
 	}
 }
 
