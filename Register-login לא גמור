@@ -9,7 +9,7 @@ T get_input(const std::string &strQuery);
 std::string get_username();
 std::string get_password();
 std::string get_mail();
-void save_user(const std::string &username, const std::string &password);
+void save_user(const std::string &username, const std::string &password,const std::string &mail);
 
 void login();
 void register_user();
@@ -90,25 +90,24 @@ void main_menu()
 	case 2:
 		register_user();
 		break;
-	case 3:
-		exit(1);
-		break;
 	default:
-		std::cout << "wrong input,try again\n!";
-		main_menu();
+		std::cout << "wrong input,bye bye\n!";
 	}
 }
+
 
 void register_user()
 {
 	std::string username = get_username();
 	std::string password = get_password();
-	save_user(username, password);
+	std::string mail = get_mail();
+	save_user(username, password,mail);
 }
 
-void save_user(const std::string &username, const std::string &password)
+void save_user(const std::string &username, const std::string &password,const std::string &mail)
 {
 	std::string filename = username + ".txt";
 	std::ofstream file(filename);
 	file << password << "\n";
+	file << mail << "\n";
 }
