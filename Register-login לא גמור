@@ -2,14 +2,16 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <string.h>
 
 template <typename T>
-T get_input(const std::string &strQuery);
+T get_input(const std::string& strQuery);
 
 std::string get_username();
 std::string get_password();
 std::string get_mail();
-void save_user(const std::string &username, const std::string &password,const std::string &mail);
+void save_user(const std::string& username, const std::string& password, const std::string& mail);
+bool hasEnding(std::string const& fullString, std::string const& ending);
 
 void login();
 void register_user();
@@ -21,7 +23,7 @@ int main()
 }
 
 template <typename T>
-T get_input(const std::string &strQuery)
+T get_input(const std::string& strQuery)
 {
 	std::cout << strQuery << "\n> ";
 	T out = T();
@@ -65,7 +67,27 @@ std::string get_username()
 std::string get_mail()
 {
 	std::string mail = get_input <std::string>("Please enter your email adress.");
+	std::string check = ".com";
+	while (!(hasEnding(mail, check)))
+		{
+			std::cout << "Error! Invalid email (missing '.com')" "\n";
+			std::string mail = get_input <std::string>("Please enter your email adress.");
+		
+			
+		}
+
 	return mail;
+}
+
+bool hasEnding(std::string const& fullString, std::string const& ending)
+{
+	if (fullString.length() >= ending.length()) {
+		return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
+	}
+	else
+	{
+		return false;
+	}
 }
 
 
@@ -101,10 +123,10 @@ void register_user()
 	std::string username = get_username();
 	std::string password = get_password();
 	std::string mail = get_mail();
-	save_user(username, password,mail);
+	save_user(username, password, mail);
 }
 
-void save_user(const std::string &username, const std::string &password,const std::string &mail)
+void save_user(const std::string& username, const std::string& password, const std::string& mail)
 {
 	std::string filename = username + ".txt";
 	std::ofstream file(filename);
