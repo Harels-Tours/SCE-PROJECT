@@ -4,8 +4,12 @@
 #include <string>
 #include <string.h>
 
+using namespace std;
+
 template <typename T>
 T get_input(const std::string& strQuery);
+
+
 
 std::string get_username();
 std::string get_password();
@@ -68,15 +72,20 @@ std::string get_mail()
 {
 	std::string mail = get_input <std::string>("Please enter your email adress.");
 	std::string check = ".com";
-	while (!(hasEnding(mail, check)))
-		{
+	while (!(hasEnding(mail,check)))
+	{
 			std::cout << "Error! Invalid email (missing '.com')" "\n";
 			std::string mail = get_input <std::string>("Please enter your email adress.");
-		
-			
-		}
+			if (hasEnding(mail, check))
+			{
+				return mail;
+			}
+	}
+	if (hasEnding(mail, check))
+	{
+		return mail;
+	}
 
-	return mail;
 }
 
 bool hasEnding(std::string const& fullString, std::string const& ending)
@@ -93,11 +102,34 @@ bool hasEnding(std::string const& fullString, std::string const& ending)
 
 void login()
 {
-	std::cout << "You are being logged in!" "\n";
+	Client**Customer_Information = get_all_users();
+	string username=get_username();
+	string password = get_password();
+	const char*username1 = username.c_str();
+	const char* password1 = password.c_str();
+
+	
+	int i = 0;
+
+	while (Customer_Information[i])
+	{
+		
+		if ((strcmp(Customer_Information[i].username, username1)==0)&& (strcmp(Customer_Information[i].password, password1) == 0))
+		{
+			//פתיחת תפריט לקלוח //חזרה
+		}
+
+
+		i++;
+	}
+	std::cout << "You are not registered in the system, please register" "\n";
+	register_user();
+
+
 }
 
 void main_menu()
-{
+{ 
 	int choice = get_input <int>(
 		"Hello, Would you like to log in or register?" "\n"
 		"[1] Login" "\n"
@@ -132,4 +164,6 @@ void save_user(const std::string& username, const std::string& password, const s
 	std::ofstream file(filename);
 	file << password << "\n";
 	file << mail << "\n";
+	
+	
 }
