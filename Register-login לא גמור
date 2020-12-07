@@ -114,14 +114,28 @@ void login()
 	while (Customer_Information[i])
 	{
 		
-		if ((strcmp(Customer_Information[i].username, username1)==0)&& (strcmp(Customer_Information[i].password, password1) == 0))
+		if (strcmp(Customer_Information[i].username, username1) == 0)
 		{
-			//פתיחת תפריט לקלוח //חזרה
+				if (strcmp(Customer_Information[i].password, password1) == 0)
+				{
+								//פתיחת תפריט לקלוח //חזרה
+
+				}
+				else
+				{
+				cout << "Incorrect password Re-enter the password " << endl;
+				password = get_password();
+				password1 = password.c_str();
+
+				}
+		
+
 		}
 
 
 		i++;
 	}
+
 	std::cout << "You are not registered in the system, please register" "\n";
 	register_user();
 
@@ -167,3 +181,5 @@ void save_user(const std::string& username, const std::string& password, const s
 	
 	
 }
+
+
