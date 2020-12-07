@@ -8,6 +8,7 @@ T get_input(const std::string &strQuery);
 
 std::string get_username();
 std::string get_password();
+std::string get_mail();
 void save_user(const std::string &username, const std::string &password);
 
 void login();
@@ -61,6 +62,12 @@ std::string get_username()
 
 	return username;
 }
+std::string get_mail()
+{
+	std::string mail = get_input <std::string>("Please enter your email adress.");
+	return mail;
+}
+
 
 void login()
 {
@@ -83,8 +90,8 @@ void main_menu()
 	case 2:
 		register_user();
 		break;
-    default :
-            std::cout<<"wrong input,bye bye\n!";
+	default:
+		std::cout << "wrong input,bye bye\n!";
 	}
 }
 
