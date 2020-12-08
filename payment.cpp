@@ -19,23 +19,23 @@ int Length_of_card(int y)
 bool Payment(int x)
 {
 	pakage* h = get_pakage();
-	////////// search package by serial 
-	///// לקבל אינדקס חבילה 
-	///// add size of package
-	int price, id, card, i = 0, cvc, Expire_date;
-	string full_name;
+	int index_where_the_pacakge_is = searchPackegeBySerialNumber(x);
+	int price, id, card, cvc, Expire_date;
+	string full_name, Phone_number;
 	bool choise = true;
-	while (h[i]) ////////////// for 
-	{
-		if (h[i].Serial == x)
+	if (index_where_the_pacakge_is == -1)
+		cout << "Error , package is'nt exist" << endl;
+	else 
 		{
-			price = h[i].price;
-			cout << "The price to pay is:" << price << endl;
-			cout << "Please enter your full name" << endl;
-			cin >> full_name;
-			cout << "Please enter your ID" << endl;
-			cin >> id;
-			while (choise)
+		price = h[index_where_the_pacakge_is].price;
+		cout << "The price to pay is:" << price << endl;
+		cout << "Please enter your full name" << endl;
+		cin >> full_name;
+		cout << "Please enter your ID" << endl;
+		cin >> id;
+		cout << "Please enter your number phone" << endl;
+		cin >> Phone_number;
+		while (choise)
 			{
 				cout << "Please enter the debit card number" << endl;
 				cin >> card;
@@ -50,13 +50,10 @@ bool Payment(int x)
 				else
 				{
 					cout << "Invalid card" << endl;
-					cout << "if u want to try again Press 1-for yes or 0-for no:"
+					cout << "if u want to try again Press 1-for yes or 0-for no:";
 					cin >> choise;
 				}
-					if (choise == 0)
-						return false;
-			}
-		}
-		i++;
-	}
+				if (choise == 0)
+					return false;
+			}	
 }
