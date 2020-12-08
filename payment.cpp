@@ -33,8 +33,6 @@ bool Payment(int x)
 		cin >> full_name;
 		cout << "Please enter your ID" << endl;
 		cin >> id;
-		cout << "Please enter your number phone" << endl;
-		cin >> Phone_number;
 		while (choise)
 			{
 				cout << "Please enter the debit card number" << endl;
