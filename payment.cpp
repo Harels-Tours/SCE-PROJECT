@@ -21,7 +21,7 @@ bool Payment(int x)
 	pakage* h = get_pakage();
 	int index_where_the_pacakge_is = searchPackegeBySerialNumber(x);
 	int price, id, card, cvc, Expire_date;
-	string full_name, Phone_number;
+	string full_name;
 	bool choise = true;
 	if (index_where_the_pacakge_is == -1)
 		cout << "Error , package is'nt exist" << endl;
