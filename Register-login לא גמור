@@ -3,7 +3,8 @@
 #include <limits>
 #include <string>
 #include <string.h>
-
+#include <regex>
+#include <stdio.h>
 using namespace std;
 
 template <typename T>
@@ -14,12 +15,12 @@ T get_input(const std::string& strQuery);
 std::string get_username();
 std::string get_password();
 std::string get_mail();
-void save_user(const std::string& username, const std::string& password, const std::string& mail);
-bool hasEnding(std::string const& fullString, std::string const& ending);
 
 void login();
 void register_user();
 void main_menu();
+bool Email_check(string email);
+
 
 int main()
 {
@@ -70,109 +71,96 @@ std::string get_username()
 }
 std::string get_mail()
 {
-	std::string mail = get_input <std::string>("Please enter your email adress.");
-	std::string check = ".com";
-	while (!(hasEnding(mail,check)))  ///////////// ???????????????????
+	string mail;
+	cout << "Enter your Email-Id:" << endl;
+	cin >> mail;
+	while (!(Email_check(mail)))
 	{
-			std::cout << "Error! Invalid email (missing '.com')" "\n";
-			std::string mail = get_input <std::string>("Please enter your email adress.");
-			if (hasEnding(mail, check))
-			{
-				return mail;
-			}
+		cout << "bad email , try again:";
+		cin >> mail;
 	}
-	if (hasEnding(mail, check))
-	{
-		return mail;
-	}
-
+	return mail;
 }
 
-bool hasEnding(std::string const& fullString, std::string const& ending)
+
+
+bool Email_check(string email)
 {
-	if (fullString.length() >= ending.length()) {
-		return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
-	}
-	else
-	{
-		return false;
-	}
+     const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+    return regex_match(email,pattern);
 }
 
 
-void login()
-{
-	Client* Customer_Information = get_all_users();
-	string username=get_username();
-	string password = get_password();
-	const char*username1 = username.c_str();
-	const char* password1 = password.c_str();
-
-	
-	int i = 0;
-///////////for  + check_length of client*
-	while (Customer_Information[i])
-	{
-		
-		if (strcmp(Customer_Information[i].username, username1) == 0)
-		{
-				if (strcmp(Customer_Information[i].password, password1) == 0)
-				{
-								//פתיחת תפריט לקלוח //חזרה
-
-				}
-				else
-				{
-				cout << "Incorrect password Re-enter the password " << endl;
-				password = get_password();
-				password1 = password.c_str();
-
-				}
-		
-
-		}
 
 
-		i++;
-	}
-
-	std::cout << "You are not registered in the system, please register" "\n";
-	register_user();
-
-
-}
+//void login()
+//{
+//	Client* Customer_Information = get_all_users();
+//	string username = get_username();
+//	string password = get_password();
+//	const char* username1 = username.c_str();
+//	const char* password1 = password.c_str();
+//	int size_of_users = SizeOfClientsFile();
+//
+//	for (int i=0; i < size_of_users ; ++i)
+//	{
+//
+//		if (strcmp(Customer_Information[i].username, username1) == 0)
+//		{
+//			if (strcmp(Customer_Information[i].password, password1) == 0)
+//			{
+//				//פתיחת תפריט לקלוח //חזרה
+//
+//			}
+//			else
+//			{
+//				cout << "Incorrect password Re-enter the password " << endl;
+//				password = get_password();
+//				password1 = password.c_str();
+//			}
+//		}
+//	}
+//
+//	std::cout << "You are not registered in the system, please register" "\n";
+//	register_user();
+//}
 
 void main_menu()
-{ 
-	int choice = get_input <int>(
-		"Hello, Would you like to log in or register?" "\n"
-		"[1] Login" "\n"
-		"[2] Register" "\n"
-		"[3] Exit");
+{
 
-	switch (choice)
+	int choice;
+
+	do
 	{
-	case 1:
-		login();
-		break;
-	case 2:
-		register_user();
-		break;
-	default:
-		std::cout << "wrong input,bye bye\n!";
-	}
+			cout<<"Hello, Would you like to log in or register?" "\n"
+			"[1] Login" "\n"
+			"[2] Register" "\n"
+			"[3] Exit""\n";
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			//login();
+			break;
+		case 2:
+			register_user();
+			break;
+		case 3:
+			exit(1);
+			break;
+		
+			
+		}
+	} while (true);
 }
-
 
 void register_user()
 {
 	std::string username = get_username();
 	std::string password = get_password();
 	std::string mail = get_mail();
-	if(SetClient(username, password, mail))
-		print seuccess
+	/*if (SetClient(username, password, mail))
+		print seuccess*/
 }
-
-
-
 
