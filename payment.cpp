@@ -18,11 +18,14 @@ int Length_of_card(int y)
 
 bool Payment(int x)
 {
-	pakage** h = get_pakage();
+	pakage* h = get_pakage();
+	////////// search package by serial 
+	///// לקבל אינדקס חבילה 
+	///// add size of package
 	int price, id, card, i = 0, cvc, Expire_date;
 	string full_name;
 	bool choise = true;
-	while (h[i])
+	while (h[i]) ////////////// for 
 	{
 		if (h[i].Serial == x)
 		{
