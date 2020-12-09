@@ -16,7 +16,9 @@ std::string get_username();
 std::string get_password();
 std::string get_mail();
 
-void login();
+void login_as_client();
+void login_as_agent();
+
 void register_user();
 void main_menu();
 bool Email_check(string email);
@@ -42,7 +44,6 @@ T get_input(const std::string& strQuery)
 
 	return out;
 }
-
 std::string get_password()
 {
 	std::string password1 = get_input <std::string>("Please enter your password.");
@@ -56,7 +57,6 @@ std::string get_password()
 
 	return password1;
 }
-
 std::string get_username()
 {
 	std::string username = get_input <std::string>("Please enter a username.");
@@ -81,50 +81,77 @@ std::string get_mail()
 	}
 	return mail;
 }
-
-
-
 bool Email_check(string email)
 {
-     const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
-    return regex_match(email,pattern);
+	const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+	return regex_match(email, pattern);
 }
 
 
 
 
-//void login()
-//{
-//	Client* Customer_Information = get_all_users();
-//	string username = get_username();
-//	string password = get_password();
-//	const char* username1 = username.c_str();
-//	const char* password1 = password.c_str();
-//	int size_of_users = SizeOfClientsFile();
-//
-//	for (int i=0; i < size_of_users ; ++i)
-//	{
-//
-//		if (strcmp(Customer_Information[i].username, username1) == 0)
-//		{
-//			if (strcmp(Customer_Information[i].password, password1) == 0)
-//			{
-//				//פתיחת תפריט לקלוח //חזרה
-//
-//			}
-//			else
-//			{
-//				cout << "Incorrect password Re-enter the password " << endl;
-//				password = get_password();
-//				password1 = password.c_str();
-//			}
-//		}
-//	}
-//
-//	std::cout << "You are not registered in the system, please register" "\n";
-//	register_user();
-//}
+void login_as_client()
+{
+	Client* Customer_Information = get_all_users();
+	string username = get_username();
+	string password = get_password();
+	const char* username1 = username.c_str();
+	const char* password1 = password.c_str();
+	int size_of_users = SizeOfClientsFile();
 
+	for (int i=0; i < size_of_users ; ++i)
+	{
+
+		if (strcmp(Customer_Information[i].username, username1) == 0)
+		{
+			if (strcmp(Customer_Information[i].password, password1) == 0)
+			{
+				//פתיחת תפריט לקלוח //חזרה
+
+			}
+			else
+			{
+				cout << "Incorrect password Re-enter the password " << endl;
+				password = get_password();
+				password1 = password.c_str();
+			}
+		}
+	}
+
+	std::cout << "You are not registered in the system, please register" "\n";
+	register_user();
+}
+void login_as_agent()
+{
+	agents* Agent_Information = get_all_agents();
+	string username = get_username();
+	string password = get_password();
+	const char* username1 = username.c_str();
+	const char* password1 = password.c_str();
+	int size_of_agents = SizeOfAgentsFile();
+
+	for (int i = 0; i < size_of_agents; ++i)
+	{
+
+		if (strcmp(Agent_Information[i].username, username1) == 0)
+		{
+			if (strcmp(Agent_Information[i].password, password1) == 0)
+			{
+				//פתיחת תפריט לסוכן //חזרה
+
+			}
+			else
+			{
+				cout << "Incorrect password Re-enter the password " << endl;
+				password = get_password();
+				password1 = password.c_str();
+			}
+		}
+	}
+
+	std::cout << "You are not registered in the system, contact with ur work manager" "\n";
+	
+}
 void main_menu()
 {
 
@@ -132,35 +159,42 @@ void main_menu()
 
 	do
 	{
-			cout<<"Hello, Would you like to log in or register?" "\n"
-			"[1] Login" "\n"
-			"[2] Register" "\n"
-			"[3] Exit""\n";
+		cout << "Hello, Would you like to log in or register?" "\n"
+			"[1] Login as client" "\n"
+			"[2] Login as agent" "\n"
+			"[3] Register" "\n"
+			"[4] Exit""\n";
 		cout << "Enter ur choise:";
 		cin >> choice;
 		switch (choice)
 		{
 		case 1:
-			//login();
+			login_as_client();
 			break;
 		case 2:
-			register_user();
+			login_as_agent();
 			break;
 		case 3:
+			register_user();
+			break;
+		case 4:
 			exit(1);
 			break;
-		
-			
 		}
 	} while (true);
 }
-
 void register_user()
 {
 	std::string username = get_username();
 	std::string password = get_password();
 	std::string mail = get_mail();
-	/*if (SetClient(username, password, mail))
-		print seuccess*/
-}
+	if (SetClient(username, password, mail)){
+		cout << " registration succeeded""\n";
+		login_as_client();
+	}
+	else {
+		cout << " registration failed,try again later""\n";
+		exit(1);
+	}
 
+}
