@@ -1,0 +1,35 @@
+//﻿ Harel_travels.cpp : This file contains the 'main' function. Program execution begins and ends there
+
+#include <iostream>
+using namespace std;
+
+void client_menu() {
+	int choice;
+
+	do
+	{
+		cout << "Hello, Would you like to log in or register?" "\n"
+			"[1] Find a vaction" "\n"
+			"[2] Order status" "\n"
+			"[3] Wish list" "\n"
+			"[4] Messages""\n";
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			find_vaction();
+			break;
+		case 2:
+			order_status();
+			break;
+		case 3:
+			wish_list();
+			break;
+		case 4:
+			messages();
+			break;
+		}
+	} while (true);
+};
+
