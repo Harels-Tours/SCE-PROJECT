@@ -1,0 +1,613 @@
+
+
+// נשאר רק לשאול את הלקוח אם הוא רוצה ויש ליסט בכל הפרוצדורה של הפילטורים ולסגור את ענין ההדפסה של ההודעות
+
+
+#include <iostream>
+using namespace std;
+
+struct Date {
+	int day, month, year;
+};
+struct Vacation {
+	string location;
+	int price;
+	Date check_in;
+	Date check_out;
+	string status;
+	int amount;
+	int serial_number;
+};
+
+struct Customer {
+	string user_name;
+	int* vacation;
+	int size_vacation;
+	int password;
+	string mail;
+	string name;
+	string last_name;
+	int	cellphone;
+	int	id;
+	int	card_id;
+	Message message[10];
+	int wishList[20] = {0};
+};
+
+struct Message {
+	char title[50];
+	char content[200];
+	char status[10];
+	Date date;
+	char response[200] = '0';
+	
+};
+
+int size_after_filter = PackegesFileSize();
+
+
+
+
+bool check_date(Date date1, Date date2)
+{
+	if (date1.day == date2.day && date1.month == date2.month && date1.year == date2.year)
+		return true;
+	return false;
+}
+
+
+// copy constructor for vacation
+void Copy_vacations(Vacation sourse, Vacation target)
+{
+	target.amount = sourse.amount;
+	target.check_in = new Date();
+	target.check_out = new Date();
+	Copy_date(sourse.check_in, target.check_in);
+	Copy_date(sourse.check_out, target.check_out);
+	target.location = sourse.location;
+	target.price = sourse.price;
+	target.serial_number = sourse.serial_number;
+	target.status = sourse.status;
+}
+
+
+
+// copy constructor for date
+void Copy_date(Date sourse, Date target)
+{
+	target.day = sourse.day;
+	target.month = sourse.month;
+	target.year = sourse.year;
+}
+
+
+void Find_vacation()
+{
+	Customer customer;
+	string user_name;
+	int choise, Serial_number_selected, check, check2 = -1;
+	cout << "Please select an option:" << endl;
+	cout << "To view existing packages, select - 1" << endl;
+	cout << "To filter packages, select - 2" << endl;
+	cout << "for back select - 3" << endl;
+	cin >> choise;
+	while (choise > 3 || choise < 1)
+	{
+		cout << "Wrong choice Please try again" << endl;
+		cin >> choise;
+	}
+	if (choise == 1)
+	{
+		Print_all_vacations(getAllPackeges());
+		cout << "If you want to sort by date, select 1" << endl;
+		cout << "If you want to sort by price, select 2" << endl;
+		cout << "If you want to sort by price and by date, select 3" << endl;
+		cout << "If you want to just add to wish list, select 4" << endl;
+		cin >> check;
+		while (check > 4 || check < 1)
+		{
+			cout << "Wrong choice Please try again" << endl;
+			cin >> check;
+		}
+		if (check == 1)
+			Print_all_vacations(Sort_by_date(getAllPackeges(), PackegesFileSize()), PackegesFileSize());
+		if (check == 2)
+			Print_all_vacations(Sort_by_price(getAllPackeges(), PackegesFileSize()), PackegesFileSize());
+		if (check == 3)
+			Print_all_vacations(Sort_by_date(Sort_by_price(getAllPackeges(), PackegesFileSize()), PackegesFileSize()), PackegesFileSize());
+		cout << "Enter the package number you selected" << endl;
+		cin >> Serial_number_selected;//בדיקה שנבחר מס סידורי קיים
+		check2 = searchPackegeBySerialNumber(Serial_number_selected);
+		while (check2 == -1)
+		{
+			cout << "Wrong choice Please try again" << endl;
+			cin >> Serial_number_selected;
+			check2 = searchPackegeBySerialNumber(Serial_number_selected);
+		}
+		if (check == 4)
+		{
+			cout << "enter user name" << endl;
+			cin >> user_name;
+			customer = Find_customer(user_name);// לבדוק מה קורה אם חוזר 0 זה בעיה
+			AddToWishList(customer, Serial_number_selected);
+		}
+		else
+		{
+			Update_status(Serial_number_selected, 1);
+			Order_vacation(Serial_number_selected);
+		}
+	}
+	if (choise == 2)
+		Package_filtering();
+	else
+		return;// חזרה למסך הראשי של סוכן\לקוח
+}
+
+void Package_filtering()
+{
+	int Serial_number_selected;
+	int choise;
+
+
+
+	Date check_in, check_out;
+	string destination;
+	int  passenger_amount, check;
+	int size = PackegesFileSize());
+	Vacation* vacations = getAllPackeges();
+	cout << "Please enter a destination or select 0 to continue" << endl;
+	cin >> destination;
+	cout << "Please enter a passenger amount or select 0 to continue" << endl;
+	cin >> passenger_amount;
+	cout << "If you want to enter check-in and check-out select 1 or select 0 to continue" << endl;
+	cin >> check;
+	if (destination != 0)
+		vacations = Get_vactions_by_location(vacations, destination);
+	if (passenger_amount != 0)
+		vacations = Get_vactions_by_passenger_amount(vacations, passenger_amount);
+	if (check == 1)
+	{
+		cout << "enter check in or select 0 to continue: day: \n month:\n year: \n" << endl;
+		cin >> check_in.day >> check_in.month >> check_in.year;
+		cout << "enter check out or select 0 to continue:\n day: \n month:\n year: \n" << endl;
+		cin >> check_out.day >> check_out.month >> check_out.year;
+		vacations = Get_vactions_by_date(vacations, check_in, check_out);
+	}
+	cout << "If you want to sort by date, select 1" << endl;
+	cout << "If you want to sort by price, select 2" << endl;
+	cout << "If you want to sort by price and by date, select 3" << endl;
+	cout << "If you  dont want to sort , select 0" << endl;
+	cin >> check;
+	if (vacations == NULL)
+	{
+		cout << "No suitable package was found" << endl;
+		Package_filtering();
+	}
+	if (check == 1)
+		Print_all_vacations(Sort_by_date(vacations, size_after_filter), size_after_filter);
+	if (check == 2)
+		Print_all_vacations(Sort_by_price(vacations, size_after_filter), size_after_filter);
+	if (check == 3)
+		Print_all_vacations(Sort_by_date(Sort_by_price(vacations, size_after_filter), size_after_filter), size_after_filter);
+	cout << "Enter the package number you selected" << endl;
+	Print_all_vacations(vacations);
+	cin >> Serial_number_selected;
+	Update_status(Serial_number_selected, 0);
+	Order_vacation(Serial_number_selected);
+
+}
+
+
+
+// sort by date
+Vacation* Sort_by_date(Vacation* vacations, int size)
+{
+	Vacation* sort_by_date = new Vacation [size];
+	for (int i = 0; i < size; i++)
+	{
+		sort_by_date[i] = new Vacation[1];
+		Copy_vacations(vacations[i], sort_by_date[i]);
+	}
+	int i, j;
+	Vacation temp = new Vacation;
+	for (i = 1; i < size; i++)
+	{
+		Copy_vacations(sort_by_date[i], temp);
+		j = i - 1;
+		while (j >= 0 && ((sort_by_date[j].check_in.year > temp.check_in.year) ||( (sort_by_date[j].check_in.year == temp.check_in.year) && (sort_by_date[j].check_in.month > temp.check_in.month)) ||((sort_by_date[j].check_in.year == temp.check_in.year) && (sort_by_date[j].check_in.month == temp.check_in.month) && sort_by_date[j].check_in.day > temp.check_in.day)))
+		{
+			Copy_vacations(sort_by_date[j], sort_by_date[j + 1]);
+			j = j - 1;
+		}
+		Copy_vacations(temp, sort_by_date[j + 1]);
+	}
+	return sort_by_date;
+}
+
+
+
+
+
+//Sort by price
+Vacation* Sort_by_price(Vacation* vacations, int size)
+{
+	Vacation* sort_by_price = new Vacation [size];
+	for (int i = 0; i < size; i++)
+	{
+		sort_by_price[i] = new Vacation[1];
+		Copy_vacations(vacations[i], sort_by_price[i]);
+	}
+	int i, j;
+	Vacation temp = new Vacation;
+	for (i = 1; i < size; i++)
+	{
+		Copy_vacations(sort_by_price[i], temp);
+		j = i - 1;
+		while (j >= 0 && sort_by_price[j].price > temp.price)
+		{
+			Copy_vacations(sort_by_price[j], sort_by_price[j + 1]);
+			j = j - 1;
+		}
+		Copy_vacations(temp, sort_by_price[j + 1]);
+	}
+	return sort_by_price;
+}
+
+
+
+
+//filter by destenation
+Vacation* Get_vactions_by_location(Vacation* vacation , string location)
+{
+	Vacation temp = new Vacation;
+	Vacation* vacations = vacation;
+	int counter = Get_size_vacations_by_location(vacations, location);
+	int size = counter;
+	Vacation* new_vacations = new Vacation [counter];
+	counter = 0;
+	for(int i = 0; i < size; i++)
+	{
+		if (vacations[i].location == location)
+		{
+		    new_vacations[i] = new Vacation[1];
+			Copy_vacations(vacations[i], new_vacations[counter]);
+			counter++;
+		}
+	}
+	
+	return new_vacations;
+}
+
+//return size of vacations by location
+ int Get_size_vacations_by_location(Vacation* vacations, string location)
+{
+	int counter = 0;
+	for(int i = 0; i < size_after_filter; i++)
+	{
+		if (vacations[i].location == location)
+			counter++;
+	}
+	size_after_filter = counter;
+	return size_after_filter;
+}
+
+
+ //filter by  passenger amount
+ Vacation* Get_vactions_by_passenger_amount(Vacation* vacation , int amount)
+ {
+	 Vacation temp;
+	 Vacation* vacations = vacation;
+	 int counter = Get_size_vacations_by_amount(vacations,amount);
+	 int size = counter;
+	 Vacation* new_vacations = new Vacation [counter];
+	 counter = 0;
+	 for (int i = 0; i < size; i++)
+	 {
+		 if (vacations[i].amount == amount)
+		 {
+		     new_vacations = new Vacation[1];
+			 Copy_vacations(vacations[i], new_vacations[counter]);
+			 counter++;
+		 }
+	 }
+	 
+	 return new_vacations;
+ }
+
+ //return size of vacations by passenger amount
+ int Get_size_vacations_by_amount(Vacation* vacations , int amount)
+ {
+	 int counter = 0;
+	 for (int i = 0; i < size_after_filter; i++)
+	 {
+		 if (vacations[i].amount == amount)
+			 counter++;
+	 }
+	 size_after_filter = counter;
+	 return size_after_filter;
+ }
+
+ //filter by date
+ Vacation* Get_vactions_by_date(Vacation* vacations, Date check_in, Date check_out)
+ {
+	 Vacation temp;
+	 Vacation* vacations = vacations;
+	 int counter = Get_size_vacations_by_date(vacations, check_in, check_out);
+	 int size = counter;
+	 Vacation* new_vacations = new Vacation [counter];
+	 counter = 0;
+	 for (int i = 0; i < size; i++)
+	 {
+		 if (check_date(vacations[i].check_in, check_in)&& check_date(vacations[i].check_out, check_out))
+		 {
+		     new_vacations  = new Vacation[1];
+			 Copy_vacations(vacations[i], new_vacations[counter]);
+			 counter++;
+		 }
+	 }
+	 return new_vacations;
+ }
+
+
+ //return size of vacations by date
+ int Get_size_vacations_by_date(Vacation* vacations, Date check_in , Date check_out)
+ {
+	 int counter = 0;
+	 for (int i = 0; i < size_after_filter; i++)
+	 {
+		 if (vacations[i].check_in.day == check_in.day && vacations[i].check_in.month == check_in.month && vacations[i].check_in.year == check_in.year)
+		 {
+			 if(vacations[i].check_out.day == check_out.day && vacations[i].check_out.month == check_out.month && vacations[i].check_out.year == check_out.year)
+				 counter++;
+		 }
+	 }
+	 size_after_filter = counter;
+	 return size_after_filter;
+ }
+
+
+
+
+
+
+ void Order_vacation(int Serial_number)
+ {
+	 bool check2 = false;
+	 int choise;
+	 bool check;
+	 Vacation* vacations = getAllPackeges();
+	 int size = PackegesFileSize();
+	 for (int i = 0; i < size; i++)
+	 {
+		 
+		 if (vacations[i].serial_number == Serial_number)
+		 {
+			 check = true;
+			 cout << "To order now press 1/n To Back Press 2 " << endl;
+			 cin << choise;
+			 while (choise > 2 || choise < 1)
+			 {
+				 cout << "Wrong choice Please try again" << endl;
+				 cin >> choise;
+			 }
+			 if (choise == 1)
+			 {
+				 // לבקש מספר טלפון ושם מלא
+				 check = Payment(Serial_number);
+				 if (check)
+				 {
+					 Update_status(Serial_number, 2);
+					 //  שליחה לסוכן שיאשר ולפי התשובה שלו מעדכן את הלקוח והדאטה בייס
+					 Order_status(//צריך לשלוח לה את הלקוח הנוכחי שמבצע את הרכישה);
+						 return;
+				 }
+				 else
+				 {
+					 Update_status(Serial_number, 3);
+					 cout << "Payment canceled " << endl;
+					 return;
+				 }
+			 }
+			 if (choise == 2)
+				 return;
+		 }
+		 
+	 }
+	 if(!check2)
+		 cout << "Serial number not exist " << endl;
+	 return;
+ }
+
+ 
+ void Order_status(Customer customer)
+	
+
+ {
+	 int choise = 0;
+	 int size = PackegesFileSize());
+	 Vacation* vacations = getAllPackeges(); 
+	 int size_vacation = customer.size_vacation;
+	 for (int i = 0; i < size_vacation; i++)
+	 {
+		 for (int j = 0; j < size_vacation; j++)
+		 {
+			 if (vacations[j].serial_number == customer.vacation[i])
+			 {
+				 if(vacations[j].status == "in_process")
+					 cout << "Pending approuv " << endl;
+				 Print_vacations(vacations[j]);
+				 cout << "If you want to cancel the order press 1 " << endl;
+				 cin >> choise;
+				 if (choise == 1)
+				 {
+					 Update_status(vacations[j].serial_number, 3);
+					 cout << "Order Number: "<< customer.vacation[i] <<" Canceled " << endl;
+				 }
+			 }
+
+		 }
+		
+	 }
+	 return;
+ }
+
+
+ //  Find customer from DB by user name
+ Customer Find_customer(string user_name)
+ {
+	 Customer* customer = getAllClient();
+	 int size = ClientFileSize());
+	 Customer temp;
+	 for (int i = 0; i < size; i++)
+	 {
+		 if (strcmp(customer[i].user_name, user_name))
+			 return customer[i];	
+	 }
+	 cout << "The user name not found >> endl;
+	 return 0;
+ }
+
+ // Wish list
+ void Wish_list(string user_name)
+ {
+	 Customer temp = Find_customer(user_name);
+	 cout << "The packages that you liked: " >> endl;
+	 PrintWishList(temp);
+	 cout << "If you want to place an order Select 1, To return to the main menu, press 0" >> endl;
+	 cin >> choise;
+	 while (choise != 0 || choise != 1)
+	 {
+		 cout << "Wrong choice Please try again" << endl;
+		 cin >> choise;
+	 }
+	 if (choise == 1)
+	 {
+		 cout << "enter seria number" << endl;
+		 cin >> serial_number;
+		 while (!check)
+		 {
+			 for (int i = 0; i < 20; i++)
+			 {
+				 if (customer.wishList[i] == serial_number)
+					 check = true;
+			 }
+			 if (check)
+				 Order_vacation(serial_number);
+			 else
+				 cout << "the serial number not found in wish list" << endl;
+		 }
+	 }
+	 if (choise == 0)
+		 return;
+ }
+
+ void PrintWishList(Customer customer)
+ {
+	 bool check = false;
+	 int choise , serial_number;
+	 Vacation* vacations = getAllPackeges();
+	 int size = PackegesFileSize());
+	 for (int i = 0; i <20; i++)
+	 {
+		 if (customer.wishList[i] != 0)
+		 {
+			 for (int j = 0; j < size; j++)
+			 {
+				 if (vacations[j].serial_number == customer.wishList[i])
+					 Print_vacations(vacations[j]);
+			 }
+		 } 
+	 }
+ }
+
+ 
+
+
+ //המספר סידורי נכנס למקום הראשון במערך של הלקוח וכל השאר זזים מקום אחד קדימה כמו בתור
+void AddToWishList(Customer customer,int serialNumber)
+ {
+	for (int i = 19; i < 0; i++)
+	{
+		customer.wishList[i] = customer.wishList[i - 1];
+	}
+	customer.wishList[0] = serialNumber;
+ }
+ 
+
+ void Masseges(Customer customer)
+ {
+	 
+	 int choise;
+	 cout << "To contact us, press 1 " << endl;
+	 cin >> choise;
+	 if (choise == 1)
+	 {
+		 for (int i = 9; i>0; i++)
+		 {
+			 customer.message[i] = customer.message[i - 1];
+		 }   
+		cout << "enter title: " << endl;
+		cin >> customer.message[0].title;
+		cout << "enter content: " << endl;
+		cin >> customer.message[0].content;
+		cout << "enter date:\n day: \n month:\n year: \n" << endl;
+		cin >> customer.message[0].date.day >> customer.message[0].date.month >> customer.message[0].date.year;
+	 }
+	 cout << "My Masseges" << endl;
+	 int i = 0;
+	 bool check = false;
+	 while (!check)
+	 {
+		 if (customer.message[i].content != 0)
+		 {
+			 Print_All_Message(customer.message[i]);
+			 i++;
+		 }
+		 else
+			 check = true;
+	 }
+ }
+ 
+
+
+
+ void Print_All_Message(Message message)
+ {
+	 cout << "The title is: " << message.title << endl;
+	 cout << "The content is: " << message.content << endl;
+	 cout << "The date is: " << message.date.day << "/" << message.date.month << "/" << message.date.year << endl;
+	 cout << "The status is: " << message.status << endl;
+	 if(message.response != NULL)
+		 cout << "The response is: " << message.response << endl;
+ }
+
+
+
+
+
+
+
+void Print_vacations(Vacation  vacations)
+{
+	cout << "The amount is: "<<vacations->amount << endl;
+	cout << "check in: "<<vacations.check_in.day<<"/" << vacations.check_in.month <<"/"<< vacations.check_in.year<< endl;
+	cout << "check out: "<< vacations.check_out.day << "/" << vacations.check_out.month << "/" << vacations.check_out.year << endl;
+	cout << "The location is: "<< vacations.location << endl;
+	cout << "The price is: "<< vacations.price << endl;
+	cout << "The serial_number is: "<< vacations.serial_number << endl;
+	cout << "The status is: " << vacations.status << endl;
+}
+
+
+
+ void Print_all_vacations(Vacation** vacations, int size)
+ {
+	 for (int i = 0; i < size; i++)
+	 {
+		 Print_vacations(vacations[i]);
+	 }
+ }
+
+
+ 
+  */
