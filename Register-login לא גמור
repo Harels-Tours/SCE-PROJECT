@@ -1,3 +1,4 @@
+
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -5,6 +6,7 @@
 #include <string.h>
 #include <regex>
 #include <stdio.h>
+
 using namespace std;
 
 template <typename T>
@@ -22,13 +24,43 @@ void login_as_agent();
 void register_user();
 void main_menu();
 bool Email_check(string email);
-
+void home_page();
 
 int main()
 {
-	main_menu();
+	home_page();
 }
 
+void home_page() {
+
+	cout << "#############################################################" << endl;
+	cout << "#                 Welcome to Harel Tours                    #" << endl;
+	cout << "#                    _                                      #" << endl;
+	cout << "#                  -=\\`\\                                    #" << endl;
+	cout << "#              |\\ ____\\_\\___                                #" << endl;
+	cout << "#            -=\\c`_________ _`)                             #" << endl;
+	cout << "#               `~~~~~/ /~~`\                                #" << endl;
+	cout << "#                 -==/ /                                    #" << endl;
+	cout << "#                   '-'                                     #" << endl;
+	cout << "#                  _  _                                     #" << endl;
+	cout << "#                 ( `   )_                                  #" << endl;
+	cout << "#                (    )    `)                               #" << endl;
+	cout << "#              (_   (_ .  _) _)                             #" << endl;
+	cout << "#                                             _             #" << endl;
+	cout << "#                                            (  )           #" << endl;
+	cout << "#                                          ( `  ) . )       #" << endl;
+	cout << "#           Hotel                         (_, _(  ,_)_)     #" << endl;
+	cout << "#         |_______|                                         #" << endl;
+	cout << "#         |_______|                                         #" << endl;
+	cout << "#         |_______|                                         #" << endl;
+	cout << "#         |_______|                                         #" << endl;
+	cout << "#         |_______|                                         #" << endl;
+	cout << "#         |_______|                                         #" << endl;
+	cout << "#         |_______|                                         #" << endl;
+	cout << "#         |_______|                                         #" << endl;
+	cout << "#############################################################" << endl;
+	main_menu();
+}
 template <typename T>
 T get_input(const std::string& strQuery)
 {
@@ -99,14 +131,14 @@ void login_as_client()
 	const char* password1 = password.c_str();
 	int size_of_users = SizeOfClientsFile();
 
-	for (int i=0; i < size_of_users ; ++i)
+	for (int i = 0; i < size_of_users; ++i)
 	{
 
 		if (strcmp(Customer_Information[i].username, username1) == 0)
 		{
 			if (strcmp(Customer_Information[i].password, password1) == 0)
 			{
-				//פתיחת תפריט לקלוח //חזרה
+				client_menu();
 
 			}
 			else
@@ -137,7 +169,7 @@ void login_as_agent()
 		{
 			if (strcmp(Agent_Information[i].password, password1) == 0)
 			{
-				//פתיחת תפריט לסוכן //חזרה
+				agent_menu();
 
 			}
 			else
@@ -150,7 +182,7 @@ void login_as_agent()
 	}
 
 	std::cout << "You are not registered in the system, contact with ur work manager" "\n";
-	
+
 }
 void main_menu()
 {
@@ -164,7 +196,7 @@ void main_menu()
 			"[2] Login as agent" "\n"
 			"[3] Register" "\n"
 			"[4] Exit""\n";
-		cout << "Enter ur choise:";
+		cout << "Enter your choise:";
 		cin >> choice;
 		switch (choice)
 		{
@@ -188,7 +220,7 @@ void register_user()
 	std::string username = get_username();
 	std::string password = get_password();
 	std::string mail = get_mail();
-	if (SetClient(username, password, mail)){
+	if (SetClient(username, password, mail)) {
 		cout << " registration succeeded""\n";
 		login_as_client();
 	}
@@ -198,3 +230,60 @@ void register_user()
 	}
 
 }
+
+
+
+void agent_menu() {
+	int choice;
+
+	do
+	{
+		cout <<
+			"[1] package management" "\n"
+			"[2] Order management" "\n"
+			"[3] Messages" "\n";
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			//package_management();
+			break;
+		case 2:
+			//Order_management();
+			break;
+		case 3:
+			//messages();
+			break;
+		}
+	} while (true);
+};
+void client_menu() {
+	int choice;
+
+	do
+	{
+		cout <<
+			"[1] Find a vaction" "\n"
+			"[2] Order status" "\n"
+			"[3] Wish list" "\n"
+			"[4] Messages""\n";
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			find_vaction();
+			break;
+		case 2:
+			order_status();
+			break;
+		case 3:
+			wish_list();
+			break;
+		case 4:
+			messages();
+			break;
+		}
+	} while (true);
+};
