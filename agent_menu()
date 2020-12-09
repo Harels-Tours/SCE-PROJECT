@@ -1,0 +1,30 @@
+//﻿ Harel_travels.cpp : This file contains the 'main' function. Program execution begins and ends there
+// add cases:1,2,3;
+#include <iostream>
+using namespace std;
+
+void agent_menu() {
+	int choice;
+	
+	do
+	{
+		cout <<
+			"[1] package management" "\n"
+			"[2] Order management" "\n"
+			"[3] Messages" "\n";
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			//package_management();
+			break;
+		case 2:
+			//Order_management();
+			break;
+		case 3:
+			//messages();
+			break;
+		}
+	} while (true);
+};
