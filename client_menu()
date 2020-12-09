@@ -8,7 +8,7 @@ void client_menu() {
 
 	do
 	{
-		cout << "Hello, Would you like to log in or register?" "\n"
+		cout << 
 			"[1] Find a vaction" "\n"
 			"[2] Order status" "\n"
 			"[3] Wish list" "\n"
