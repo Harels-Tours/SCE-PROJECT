@@ -121,7 +121,7 @@ void login_as_client()
 			register_user();
 			break;
 		case 3:
-			home_page();
+			main_menu();
 			break;
 		}
 	} while (true);
@@ -262,9 +262,6 @@ bool Check_if_user_name_exists(string user_name)
 }
 
 
-
-
-
 template <typename T>
 T get_input(const std::string& strQuery)
 {
@@ -279,8 +276,9 @@ T get_input(const std::string& strQuery)
 	}
 
 	return out;
-}
+} 
 
+/////////// RETURN PASSWORD ,CONDITION UP TO 8 CHARACTERS /////////////
 std::string get_password()
 {
 
@@ -300,7 +298,7 @@ std::string get_password()
 
 	return password1;
 }
-/////////// CREATE NAME UP TO 100 CHARACTERS /////////////
+/////////// RETURN NAME UP TO 100 CHARACTERS /////////////
 std::string get_username()
 {
 	std::string username = get_input <std::string>("Please enter a username.");
@@ -311,7 +309,6 @@ std::string get_username()
 	}
 	return username;
 }
-
 /////////// RETURN MAIL ONLY IF HE VALID  /////////////
 std::string get_mail()
 {
@@ -336,14 +333,15 @@ std::string get_mail()
 			return mail;
 	}
 }
-
-
 /////////// CHECK IF MAIL IS VALID , IF ITS OK RETURN TRUE ELSE FALSE   /////////////
 bool Email_check(string email)
 {
 	const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
 	return regex_match(email, pattern);
 }
+
+
+
 
 
 ///////////NOT FINISH /////////////
