@@ -9,14 +9,32 @@ using namespace std;
 
 template <typename T>
 T get_input(const std::string& strQuery);
+
 std::string get_username();
+
 std::string get_password();
+
 std::string get_mail();
+
 void login_as_client();
+
+void login_after_chose_login_as_client();
+
 void login_as_agent();
+
 void register_user();
+
+bool Check_if_user_name_exists(string user_name);
+
 void main_menu();
+
+void client_menu(string username);
+
+void agent_menu(string username);  /////////////// need to send user name ?????????
+
+
 bool Email_check(string email);
+
 void home_page();
 
 int main()
@@ -57,76 +75,35 @@ void home_page() {
 	cout << "#############################################################" << endl;
 	main_menu();
 }
-
-template <typename T>
-T get_input(const std::string& strQuery)
+/////////// MAIN_MENU OF PROGRAM /////////////
+void main_menu()
 {
-	std::cout << strQuery << "\n> ";
-	T out = T();
-
-	while (!(std::cin >> out)) {
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits <std::streamsize>::max(), '\n');
-		std::cout << "Error!" "\n";
-		std::cout << strQuery << "\n> ";
-	}
-
-	return out;
-}
-
-std::string get_password()
-{
-	std::string password1 = get_input <std::string>("Please enter your password.");
-	std::string password2 = get_input <std::string>("Please re-enter your password.");
-
-	while (password1 != password2) {
-		std::cout << "Error! Passwords do not match." "\n";
-		password1 = get_input <std::string>("Please enter your password.");
-		password2 = get_input <std::string>("Please re-enter your password.");
-	}
-
-	return password1;
-}
-
-std::string get_username()
-{
-	std::string username = get_input <std::string>("Please enter a username.");
-	std::cout << "Username: \"" << username << "\"\n";
-
-	while (get_input <int>("Confirm? [0|1]") != 1) {
-		username = get_input <std::string>("Please enter a username.");
-		std::cout << "Username: \"" << username << "\"\n";
-	}
-
-	return username;
-}
-
-/////////// RETURN MAIL   /////////////
-std::string get_mail()
-{
-	string mail;
-	cout << "Enter your Email-Id:" << endl;
-	cin >> mail;
-	while (!(Email_check(mail)))
+	int choice;
+	do
 	{
-		cout << "bad email , try again:";
-		cin >> mail;
-	}
-	return mail;
+		cout << "Hello, Would you like to login(register inside login) in or register?" "\n"
+			"[1] Login as client" "\n"
+			"[2] Login as agent" "\n"
+			"[3] Exit""\n";
+		cout << "Enter your choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			login_as_client();
+			break;
+		case 2:
+			login_as_agent();
+			break;
+		case 3:
+			exit(1);
+			break;
+		}
+	} while (true);
 }
-
-
-/////////// CHECK IF MAIL IS VALID , IF ITS OK RETURN TRUE ELSE FALSE   /////////////
-bool Email_check(string email)
-{
-	const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
-	return regex_match(email, pattern);
-}
-
-/////////// choose to log in 
+/////////// CHOOSE LOGIN AS CLIENT ( 4 OPTIONS :1-LOGIN 2-REGISTER 3-GO BACK TO MAIN MENU /////////////
 void login_as_client()
 {
-
 	int choise;
 	do
 	{
@@ -149,10 +126,10 @@ void login_as_client()
 		}
 	} while (true);
 }
-
+/////////// LOGIN AS CLIENT /////////////
 void login_after_chose_login_as_client()
 {
-	Client* Customer_Information = get_all_users();
+	Client* Customer_Information = getAllClients();
 	string username = get_username();
 	string password = get_password();
 	const char* username1 = username.c_str();
@@ -169,7 +146,7 @@ void login_after_chose_login_as_client()
 			{
 				if (strcmp(Customer_Information[i].password, password1) == 0)
 				{
-					client_menu();
+					client_menu(username);
 				}
 				else
 				{
@@ -187,7 +164,189 @@ void login_after_chose_login_as_client()
 	cout << "User hasn't found""\n";
 	main_menu();
 }
+/////////// SHOW CLIENT MENU : 1-FIND_VACTION 2-ORDER STATUS 3-WISH_LIST 4-MESSAGES 5 HOME PAGE 6 EXIT/////////////
+void client_menu(string username) {
+	int choice;
+	do
+	{
+		cout <<
+			"[1] Find a vaction" "\n"
+			"[2] Order status" "\n"
+			"[3] Wish list" "\n"
+			"[4] Messages""\n"
+			"[5] Home page(You will have to reconnect)""\n"
+			"[6] Exit" "\n";
 
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			Find_vaction(username);
+			break;
+		case 2:
+			Order_status(username);
+			break;
+		case 3:
+			Wish_list(username);
+			break;
+		case 4:
+			Messages(username);
+			break;
+		case 5:
+			home_page();
+			break;
+		case 6:
+			exit(0);
+			break;
+		}
+	} while (true);
+};
+/////////// REGISTER NEW CLIENT IF SUCCSESS SEND TO LOGIN ELSE PRINT FAILED AND RETURN TO HOME PAGE /////////////
+void register_user()
+{
+	std::string username;
+	bool keep_trying = true;
+	while (keep_trying)
+	{
+		username = get_username();
+		if (Check_if_user_name_exists(username)) //// if user name existed, return false
+		{
+			keep_trying = false;
+		}
+		else
+		{
+			cout << "name is already used , want to try another name?0-No ,1-Yes:";
+			cin >> keep_trying;
+			if (keep_trying==0) 
+			{
+				home_page();
+			}
+		}
+	}
+	
+	std::string password = get_password();
+	std::string mail = get_mail();
+
+	const char* username1 = username.c_str();
+	const char* password1 = password.c_str();
+	const char* mail1 = mail.c_str();
+
+	Client new_acc=creatNewClient(username1, password1, mail1);   ///////////// createNewClient return clint
+	if (setClientToDB(new_acc))
+	{
+		cout << "create has succeed""\n";
+		login_after_chose_login_as_client();
+	}
+	else
+	{
+		cout << "create hasn't succeed , try again later""\n";
+		home_page();
+	}
+}
+/////////// IF USER EXIST RETURN FALSE ELSE RETURN TRUE /////////////
+bool Check_if_user_name_exists(string user_name)
+{
+	Client* db_all_clients = getAllClients();
+	int size_of_all_clients = ClientsfileSize();
+	const char* username1 = user_name.c_str();
+	bool keep_trying = true;
+	for (int i = 0;i < size_of_all_clients;++i)
+	{
+		if (strcmp(db_all_clients[i].user_name, username1) == 0)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+
+
+
+
+template <typename T>
+T get_input(const std::string& strQuery)
+{
+	std::cout << strQuery << "\n> ";
+	T out = T();
+
+	while (!(std::cin >> out)) {
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits <std::streamsize>::max(), '\n');
+		std::cout << "Error!" "\n";
+		std::cout << strQuery << "\n> ";
+	}
+
+	return out;
+}
+
+std::string get_password()
+{
+
+	std::string password1 = get_input <std::string>("Please enter your password.");
+	while (password1.size() >= 8) 
+	{
+		std::cout << "Error! Password up to 8 characters." "\n";
+		password1 = get_input <std::string>("Please enter your password.");
+	}
+	std::string password2 = get_input <std::string>("Please re-enter your password.");
+
+	while (password1 != password2) {
+		std::cout << "Error! Passwords do not match." "\n";
+		password1 = get_input <std::string>("Please enter your password.");
+		password2 = get_input <std::string>("Please re-enter your password.");
+	}
+
+	return password1;
+}
+/////////// CREATE NAME UP TO 100 CHARACTERS /////////////
+std::string get_username()
+{
+	std::string username = get_input <std::string>("Please enter a username.");
+	while (username.size() >= 100)
+	{
+		std::cout << "Error! username should be up to 100 characters." "\n";
+		username = get_input <std::string>("Please enter a username.");
+	}
+	return username;
+}
+
+/////////// RETURN MAIL ONLY IF HE VALID  /////////////
+std::string get_mail()
+{
+	string mail;
+	cout << "Enter your Email-Id:";
+	cin >> mail;
+	bool flag = true;
+	while (flag)
+	{
+		while (mail.size() >= 20 && (!(Email_check(mail))))
+		{
+			std::cout << "Error! mail should be up to 20 characters." "\n";
+			mail = get_input <std::string>("Please enter a username.");
+		}
+
+		while (!(Email_check(mail)))
+		{
+			cout << "bad email , try again:";
+			cin >> mail;
+		}
+		if (mail.size() <= 20 && Email_check(mail))
+			return mail;
+	}
+}
+
+
+/////////// CHECK IF MAIL IS VALID , IF ITS OK RETURN TRUE ELSE FALSE   /////////////
+bool Email_check(string email)
+{
+	const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+	return regex_match(email, pattern);
+}
+
+
+///////////NOT FINISH /////////////
 void login_as_agent()
 {
 
@@ -228,48 +387,7 @@ void login_as_agent()
 	main_menu();
 }
 
-void main_menu()
-{
-	int choice;
-	do
-	{
-		cout << "Hello, Would you like to login(register inside login) in or register?" "\n"
-			"[1] Login as client" "\n"
-			"[2] Login as agent" "\n"
-			"[3] Exit""\n";
-		cout << "Enter your choise:";
-		cin >> choice;
-		switch (choice)
-		{
-		case 1:
-			login_as_client();
-			break;
-		case 2:
-			login_as_agent();
-			break;
-		case 3:
-			exit(1);
-			break;
-		}
-	} while (true);
-}
-
-void register_user()
-{
-	std::string username = get_username();
-	std::string password = get_password();
-	std::string mail = get_mail();
-	if (SetClient(username, password, mail)) {
-		cout << " registration succeeded""\n";
-		login_as_client();
-	}
-	else {
-		cout << " registration failed,try again later""\n";
-		exit(1);
-	}
-
-}
-
+///////////NOT FINISH /////////////
 
 void agent_menu() {
 	int choice;
@@ -305,41 +423,3 @@ void agent_menu() {
 	} while (true);
 };
 
-void client_menu() {
-	int choice;
-
-	do
-	{
-		cout <<
-			"[1] Find a vaction" "\n"
-			"[2] Order status" "\n"
-			"[3] Wish list" "\n"
-			"[4] Messages""\n"
-			"[5] Home page(You will have to reconnect)""\n"
-			"[6] Exit" "\n";
-
-		cout << "Enter ur choise:";
-		cin >> choice;
-		switch (choice)
-		{
-		case 1:
-			find_vaction();
-			break;
-		case 2:
-			order_status();
-			break;
-		case 3:
-			wish_list();
-			break;
-		case 4:
-			messages();
-			break;
-		case 5:
-			home_page();
-			break;
-		case 6:
-			exit(0);
-			break;
-		}
-	} while (true);
-};
