@@ -121,7 +121,7 @@ void login_as_client()
 			register_user();
 			break;
 		case 3:
-			main_menu();
+			home_page();
 			break;
 		}
 	} while (true);
