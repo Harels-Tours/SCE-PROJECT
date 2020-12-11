@@ -1,10 +1,11 @@
 void package_management();
 void Order_management();
 void messages();
-Packege creatNewPackege();
+Packege add_package_to_db();
 string get_destination();
 float get_price();
-
+int get_number_of_passengers();
+void print_all_packages();
 
 void package_management()
 {
@@ -19,7 +20,7 @@ void package_management()
 		switch (choice)
 		{
 		case 1:
-			creatNewPackege();
+			add_package_to_db();
 			break;
 		case 2:
 			Order_management();
@@ -37,28 +38,61 @@ void package_management()
 	} while (true);
 }
 
-////////////////////////////////////CASE 1 : ADD NEW PACKAGE TO DB //////////////////////////
-Packege creatNewPackege()
+//############################################################START OF CASE 1 : ADD NEW PACKAGE TO DB ##########################################
+Packege add_package_to_db()
 {
-	string destination;
-	float Price;
-	int day, month, year, num_of_passengers;
+	Package New;
 	Data start_of_package, end_of_package;
+
+	string destination;
+	float price;
+	int day, month, year, number_of_passengers;
+
+	start_of_package = get_start_date_of_package();
+	end_of_package = get_end_date_of_package();
+
+	destination = get_destination();
+	const char* p_destination = destination.c_str();
+
+	price = get_price();
+	number_of_passengers = get_number_of_passengers();
+
+
+
+	New=creatNewPackege(p_destination,  price,  start_of_package,  end_of_package,  number_of_passengers);
+	
+	if (setPackegeToDB(New))
+	{
+		cout << "package added successfully" "\n";
+	}
+	else
+		cout << "Failed to add package, contact your administrator " "\n";
+
+	print_all_packages();
+	
+
+	
+}
+
+Data get_start_date_of_package()
+{
+	Data start;
+	int day, month, year;
 	cout << "Enter start date of package:dd/mm/yyyy:";
 	cin >> day >> month >> year;
-	start_of_package = getNewDate(day, month, year);
-	cout << "Enter end date of package:dd/mm/yyyy:";
+	start=getNewDate(day, month, year);
+	return start;
+
+}
+
+Data get_end_date_of_package()
+{
+	Data end;
+	int day, month, year;
+	cout << "Enter start date of package:dd/mm/yyyy:";
 	cin >> day >> month >> year;
-	end_of_package = getNewDate(day, month, year);
-	destination = get_destination();
-	price = get_price();
-
-
-	Packege creatNewPackege(const char* destination, float price, Date start, Date end, int number_of_passengers)
-
-	
-
-	
+	end = getNewDate(day, month, year);
+	return end;
 }
 
 string get_destination()
@@ -83,27 +117,65 @@ string get_destination()
 	return destination;
 }
 
-
 float get_price()
 {
-	bool check_if_number_greater_then_100;
-	string destination;
-	cout >> "Enter destination :";
-	while (destination.size() >= 100)
+	bool check_if_price_below_equal_0;
+	float price;
+	cout >> "Enter price :";
+	while (price <=0)
 	{
-		cout >> "destination name must be up to 100 characters, press 0 to exit and move to agent menu or 1 to re-enter destination name: ";
-		if (check_if_re_enter)
+		cout >> "price can't be below\equal to 0, press 0 to exit and move to agent menu or 1 to re-enter price : ";
+		cin>>check_if_price_below_equal_0;
+		if (check_if_price_below_equal_0)
 		{
-			cout >> "enter destination name: ";
-			cin >> destination;
+			cout >> "enter new price: ";
+			cin >> price;
 
 		}
 		else
 			agent_menu();
 
 	}
-	return destination;
+	return price;
 }
+
+int get_number_of_passengers()
+{
+	bool check_if_passengers_below_equal_0;
+	int get_number_of_passengers;
+	cout >> "how many people are you :";
+	cin >> get_number_of_passengers;
+	while (get_number_of_passengers <= 0)
+	{
+		cout >> "number of passengers can't be below\equal to 0, press 0 to exit and move to agent menu or 1 to re-enter price : ";
+		cin >> check_if_passengers_below_equal_0;
+		;
+		if (check_if_passengers_below_equal_0;)
+		{
+			cout >> "how many people are you :";
+			cin >> get_number_of_passengers;
+
+		}
+		else
+			agent_menu();
+
+	}
+	return get_number_of_passengers;
+}
+
+void print_all_packages()  //////////////////////
+{
+	int size_of_db_all_package;
+	Package* all_packages;
+	all_packages = getAllPackeges();
+	size_of_db_all_package = PackegesfileSize();
+
+
+}
+
+
+
+
 
 
 void Order_management()
