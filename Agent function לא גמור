@@ -1,0 +1,117 @@
+void package_management();
+void Order_management();
+void messages();
+Packege creatNewPackege();
+string get_destination();
+float get_price();
+
+
+void package_management()
+{
+	int choice;
+	do
+	{
+		cout <<
+			"[1] add new package" "\n"
+			"[2] edit package" "\n";
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			creatNewPackege();
+			break;
+		case 2:
+			Order_management();
+			break;
+		case 3:
+			messages();
+			break;
+		case 4:
+			home_page();
+			break;
+		case 5:
+			exit(0);
+			break;
+		}
+	} while (true);
+}
+
+////////////////////////////////////CASE 1 : ADD NEW PACKAGE TO DB //////////////////////////
+Packege creatNewPackege()
+{
+	string destination;
+	float Price;
+	int day, month, year, num_of_passengers;
+	Data start_of_package, end_of_package;
+	cout << "Enter start date of package:dd/mm/yyyy:";
+	cin >> day >> month >> year;
+	start_of_package = getNewDate(day, month, year);
+	cout << "Enter end date of package:dd/mm/yyyy:";
+	cin >> day >> month >> year;
+	end_of_package = getNewDate(day, month, year);
+	destination = get_destination();
+	price = get_price();
+
+
+	Packege creatNewPackege(const char* destination, float price, Date start, Date end, int number_of_passengers)
+
+	
+
+	
+}
+
+string get_destination()
+{
+	bool check_if_re_enter;
+	string destination;
+	cout >> "Enter destination :";
+	while (destination.size() >= 100)
+	{
+		cout >> "destination name must be up to 100 characters, press 0 to exit and move to agent menu or 1 to re-enter destination name: ";
+		cin >> check_if_re_enter;
+		if (check_if_re_enter)
+		{
+			cout >> "enter destination name: ";
+			cin >> destination;
+
+		}
+		else
+			agent_menu();
+
+	}
+	return destination;
+}
+
+
+float get_price()
+{
+	bool check_if_number_greater_then_100;
+	string destination;
+	cout >> "Enter destination :";
+	while (destination.size() >= 100)
+	{
+		cout >> "destination name must be up to 100 characters, press 0 to exit and move to agent menu or 1 to re-enter destination name: ";
+		if (check_if_re_enter)
+		{
+			cout >> "enter destination name: ";
+			cin >> destination;
+
+		}
+		else
+			agent_menu();
+
+	}
+	return destination;
+}
+
+
+void Order_management()
+{
+
+}
+void messages()
+{
+
+}
+
