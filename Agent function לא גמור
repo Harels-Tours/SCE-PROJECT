@@ -336,27 +336,41 @@ void Approve_cancel_order()
 
 void Approve_order()
 {
-	PrintAllPackagesAwaitingApproval();
-	cout << "enter serial number of package that u want to approve:";
-	cin >> serial_number;
-	if (UpdatePackegeStatus(2, serial_number))
-		cout << "Updated to approve successfully""\n";
+	if (PrintAllPackagesAwaitingApproval() == -2)
+	{
+		cout << "there is no packages that waits for you""\n";
+
+	}
 	else
-		cout << "Updated to approve failed ""\n";
+	{
+		cout << "enter serial number of package that u want to approve:";
+		cin >> serial_number;
+		if (UpdatePackegeStatus(2, serial_number))
+			cout << "Updated to approve successfully""\n";
+		else
+			cout << "Updated to approve failed ""\n";
+	}
+	
 	Order_management();
 }
 
 void Cancel_order()
 {
+	if (PrintAllPackagesAwaitingApproval() == -2)
+	{
+		cout << "there is no packages that waits for you""\n";
 
-
-	PrintAllPackagesAwaitingApproval();
-	cout << "enter serial number of package that u want to approve:";
-	cin >> serial_number;
-	if (UpdatePackegeStatus(3, serial_number))
-		cout << "Updated to cancel successfully""\n";
+	}
 	else
-		cout << "Updated to cancel failed ""\n";
+	{
+		cout << "enter serial number of package that u want to approve:";
+		cin >> serial_number;
+		if (UpdatePackegeStatus(3, serial_number))
+			cout << "Updated to cancel successfully""\n";
+		else
+			cout << "Updated to cancel failed ""\n";
+	}
+
 	Order_management();
 }
 
@@ -366,7 +380,13 @@ void Cancel_order()
 
 void messages()
 {
+	if(PrintAllUnReadMasseges() == -2 )
+		cout<<"There is no new messages""\n";
+	else
+	{
+
+	}
+
 
 }
-
 
