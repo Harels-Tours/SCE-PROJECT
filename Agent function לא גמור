@@ -180,7 +180,7 @@ int get_number_of_passengers()
 	return get_number_of_passengers;
 }
 
-void print_all_packages()  //////////////////////מה אני אמור להדפיס לו כאן????????????
+void print_all_packages()  
 {
 	int size_of_db_all_package;
 	Package* all_packages;
