@@ -658,31 +658,32 @@ static void Wish_list(string user_name)
 
 static void Masseges(string user_name)
 {
-	Client* customer = Find_customer2(user_name);// לבדוק מה קורה אם חוזר 0 זה בעיה
+	Message message;
 	int choise;
 	cout << "To contact us, press 1 " << endl;
 	cin >> choise;
 	if (choise == 1)
 	{
-		for (int i = 9; i > 0; i--)
-		{
-			customer->message_list[i] = customer->message_list[i - 1];
-		}
 		cout << "enter title: " << endl;
-		cin >> customer->message_list[0].title;
+		cin >> message.title;
 		cout << "enter content: " << endl;
-		cin >> customer->message_list[0].content;
+		cin >> message.content;
 		cout << "enter date:\n day: \n month:\n year: \n" << endl;
-		cin >> customer->message_list[0].sending_date.day >> customer->message_list[0].sending_date.month >> customer->message_list[0].sending_date.year;
+		cin >> message.sending_date.day >> message.sending_date.month >> message.sending_date.year;
+		
+
+	   const char* user_name_new = user_name.c_str();
+		UpdateClientMessage(user_name_new, message);
+		
 	}
 	cout << "My Masseges" << endl;
 	int i = 0;
 	bool check = false;
+	Client* customer = Find_customer2(user_name);
 	while (!check)
 	{
 		if (customer->message_list[i].content[0] != '0')
 		{
-			//Print_All_Message(customer->massages_list[i]);
 			printMassege(customer->message_list[i]);
 			i++;
 		}
