@@ -993,7 +993,7 @@ static bool Email_check(string email)
 
 
 
-/*
+
 
 
 ///////////login_as_agent /////////////
@@ -1018,7 +1018,9 @@ void login_as_agent()
 	home_page();
 
 }
-*/
+
+
+
 ///////////NOT FINISH /////////////
 /*
 
