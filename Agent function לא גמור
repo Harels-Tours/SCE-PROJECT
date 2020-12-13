@@ -7,6 +7,21 @@ float get_price();
 int get_number_of_passengers();
 void print_all_packages();
 void edit_package();
+
+
+Date get_start_date_of_package();
+Date get_end_date_of_package();
+///// STATMENY OF ALL UPDATE FUNCTION
+void edit_by_price();
+void edit_by_arrive_date();
+void edit_by_leave_date();
+int get_serial_number();
+void edit_by_arrive_date();
+
+
+
+//############################################################package_management : ADD NEW PACKAGE TO DB ##########################################
+      //////main of function////////////
 void package_management()
 {
 	int choice;
@@ -33,7 +48,6 @@ void package_management()
 	} while (true);
 }
 
-//############################################################package_management : ADD NEW PACKAGE TO DB ##########################################
 Packege add_package_to_db()
 {
 	Package New;
@@ -164,8 +178,10 @@ void print_all_packages()  //////////////////////מה אני אמור להדפי
 	Package* all_packages;
 	all_packages = getAllPackeges();
 	size_of_db_all_package = PackegesfileSize();
-
-
+	for (int i = 0; i < size_of_db_all_package;++i)
+	{
+		printPackegeall_packages[i]);
+	}
 }
 
 
@@ -174,63 +190,108 @@ void print_all_packages()  //////////////////////מה אני אמור להדפי
 
 void edit_package()
 {
-
-		//Update packege price by serial number and new price
-		//if the update success return true else return false
-		bool UpdatePackegePrice(int price, int serial_number)
-
-		//Update packege arrival daet by serial number and new date
-		//if the update success return true else return false
-		bool UpdatePackegeArrivalDate(Date date, int serial_number)
-
-		//Update packege leaving daet by serial number and new date
-		//if the update success return true else return false
-		bool UpdatePackegeLeavingDate(Date date, int serial_number)
-
-			int choice;
+		int choice;
 		do
 		{
 			cout <<
 				"[1] edit by price" "\n"
 				"[2] edit by arrive date" "\n"
-				"[3] back to agent menu" "\n";
+				"[3] edit by leave date" "\n"
+				"[4] back to agent menu" "\n";
 			cout << "Enter ur choise:";
 			cin >> choice;
 			switch (choice)
 			{
 			case 1:
-				add_package_to_db();
+				edit_by_price();
 				break;
 			case 2:
-				edit_package();
+				edit_by_arrive_date();
 				break;
 			case 3:
+				edit_by_leave_date();
+				break;
+			case 4:
 				agent_menu()();
 				break;
 			}
 		} while (true);
+}
 
-
-
+void edit_by_price()
+{
+	int serial_number;
+	float new_price;
+	print_all_packages();
+	new_price=get_price();
+	serial_number = get_serial_number();
+	if ( UpdatePackegePrice(new_price, serial_number) )
+		cout << "price has updated succesfiyl""\n";
+	else
+		cout << "price has updated failed""\n";
+	edit_package();
 
 }
 
+int get_serial_number() 
+{
+	print_all_packages();
+	int serial_number;
+	cout << "enter serial number of package that u want to edit:";
+	cin >> serial_number;
+	if (searchPackegeBySerialNumber(serial_number) != -1 && searchPackegeBySerialNumber(serial_number) != -2)
+	{
+		return serial_number;
+	}
+	return -1;
+}
 
+void edit_by_arrive_date()
+{
+	Date arrival_date;
+	int serial_number;
+	serial_number = get_serial_number();
+	arrival_date = get_start_date_of_package();
+	if( UpdatePackegeArrivalDate(arrival_date, serial_number) )
+		cout << "arrive date has updated succesfiyl""\n";
+	else
+		cout << "arrive date has updated failed""\n";
 
+	edit_package();
 
+}
 
+void edit_by_leave_date()
+{
+	Date leave_date;
+	int serial_number;
+	serial_number = get_serial_number();
+	leave_date = get_end_date_of_package();
+	if (UpdatePackegeLeavingDate(leave_date, serial_number))
+		cout << "leave date has updated succesfiyl""\n";
+	else
+		cout << "leave date has updated failed""\n";
+
+	edit_package();
+}
 
 //############################################################Order_management  ##########################################
+
+
 void Order_management()
 {
+	if(PrintAllPackagesAwaitingApproval ==
 	PrintAllPackagesAwaitingApproval();
+
 }
 
 
+//############################################################    MESSAGES  ##########################################
 
 
 void messages()
 {
 
 }
+
 
