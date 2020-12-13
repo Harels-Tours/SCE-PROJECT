@@ -1,4 +1,3 @@
-void package_management();
 void Order_management();
 void messages();
 Packege add_package_to_db();
@@ -8,15 +7,24 @@ int get_number_of_passengers();
 void print_all_packages();
 void edit_package();
 
+///// STATMENT OF ADD NEW PACKAGE FUNCTION
+void package_management();
 
 Date get_start_date_of_package();
 Date get_end_date_of_package();
-///// STATMENY OF ALL UPDATE FUNCTION
+
+///// STATMENT OF ALL UPDATE FUNCTION
 void edit_by_price();
 void edit_by_arrive_date();
 void edit_by_leave_date();
 int get_serial_number();
 void edit_by_arrive_date();
+
+
+///// STATMENT OF ALL OREDER MENGMENT FUNCTION
+void Approve_cancel_order();
+void Approve_order();
+void Cancel_order();
 
 
 
@@ -180,7 +188,7 @@ void print_all_packages()  //////////////////////מה אני אמור להדפי
 	size_of_db_all_package = PackegesfileSize();
 	for (int i = 0; i < size_of_db_all_package;++i)
 	{
-		printPackegeall_packages[i]);
+		printPackege(all_packages[i]);
 	}
 }
 
@@ -280,9 +288,76 @@ void edit_by_leave_date()
 
 void Order_management()
 {
-	if(PrintAllPackagesAwaitingApproval ==
-	PrintAllPackagesAwaitingApproval();
 
+	int choice;
+	do
+	{
+		cout <<
+			"[1] Approve/cancel order" "\n"
+			"[2] back to agent menu" "\n";
+			
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			Approve_cancel_order();
+			break;
+		case 2:
+			agent_menu();
+			break;
+		}
+	} while (true);
+}
+
+void Approve_cancel_order()
+{
+	int choice;
+	do
+	{
+		cout <<
+			"[1] Approve order" "\n"
+			"[2] Cancel order" "\n";
+
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			Approve_order();
+			break;
+		case 2:
+			Cancel_order();
+			break;
+		}
+	} while (true);
+
+}
+
+void Approve_order()
+{
+	PrintAllPackagesAwaitingApproval();
+	cout << "enter serial number of package that u want to approve:";
+	cin >> serial_number;
+	if (UpdatePackegeStatus(2, serial_number))
+		cout << "Updated to approve successfully""\n";
+	else
+		cout << "Updated to approve failed ""\n";
+	Order_management();
+}
+
+void Cancel_order()
+{
+
+
+	PrintAllPackagesAwaitingApproval();
+	cout << "enter serial number of package that u want to approve:";
+	cin >> serial_number;
+	if (UpdatePackegeStatus(3, serial_number))
+		cout << "Updated to cancel successfully""\n";
+	else
+		cout << "Updated to cancel failed ""\n";
+	Order_management();
 }
 
 
