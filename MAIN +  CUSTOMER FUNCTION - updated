@@ -31,7 +31,7 @@ static bool Email_check(string email);
 static void home_page();
 static void Order_management();
 static void messages();
-static Packege add_package_to_db();
+static void add_package_to_db();
 static string get_destination();
 static float get_price();
 static int get_number_of_passengers();
@@ -770,7 +770,7 @@ static void package_management()
 	} while (true);
 }
 
-static Packege add_package_to_db()
+static void add_package_to_db()
 {
 	Packege New;
 	Date start_of_package, end_of_package;
@@ -828,7 +828,7 @@ static Date get_end_date_of_package()
 
 static string get_destination()
 {
-	bool check_if_re_enter;
+	int check_if_re_enter;
 	string destination;
 	cout << "Enter destination :";
 	while (destination.size() >= 100)
@@ -1464,10 +1464,10 @@ static void agent_menu() {
 		switch (choice)
 		{
 		case 1:
-			//package_management();
+			package_management();
 			break;
 		case 2:
-			//Order_management();
+			Order_management();
 			break;
 		case 3:
 			//messages();
