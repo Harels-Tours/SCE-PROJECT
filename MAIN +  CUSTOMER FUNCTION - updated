@@ -852,7 +852,8 @@ static float get_price()
 {
 	bool check_if_price_below_equal_0;
 	float price;
-	cout << "Enter price :";
+	cout << "Enter price :"<<endl;
+	cin >> price;
 	while (price <= 0)
 	{
 		cout << "price can't be below\equal to 0, press 0 to exit and move to agent menu or 1 to re-enter price : ";
