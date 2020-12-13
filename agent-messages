@@ -1,4 +1,7 @@
 //############################################################    MESSAGES  ##########################################
+bool respone(string name);
+void messages();
+string get_response();
 
 
 void messages()
