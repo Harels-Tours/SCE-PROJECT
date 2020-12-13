@@ -1,3 +1,6 @@
+
+
+
 void Order_management();
 void messages();
 Packege add_package_to_db();
@@ -374,19 +377,30 @@ void Cancel_order()
 	Order_management();
 }
 
+bool respone(string name);
+
 
 //############################################################    MESSAGES  ##########################################
 
 
 void messages()
 {
-	if(PrintAllUnReadMasseges() == -2 )
-		cout<<"There is no new messages""\n";
+	int index;
+	string  name;
+	if (PrintAllUnReadMasseges() == -2)
+		cout << "There is no new messages""\n";
 	else
 	{
-
+		
+		respone(name);
 	}
 
-
 }
+
+bool respone(string name)
+{
+	
+}
+
+
 
