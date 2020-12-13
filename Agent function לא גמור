@@ -6,7 +6,7 @@ string get_destination();
 float get_price();
 int get_number_of_passengers();
 void print_all_packages();
-
+void edit_package();
 void package_management()
 {
 	int choice;
@@ -14,7 +14,8 @@ void package_management()
 	{
 		cout <<
 			"[1] add new package" "\n"
-			"[2] edit package" "\n";
+			"[2] edit package" "\n"
+			"[3] back to agent menu" "\n";
 		cout << "Enter ur choise:";
 		cin >> choice;
 		switch (choice)
@@ -23,22 +24,16 @@ void package_management()
 			add_package_to_db();
 			break;
 		case 2:
-			Order_management();
+			edit_package();
 			break;
 		case 3:
-			messages();
-			break;
-		case 4:
-			home_page();
-			break;
-		case 5:
-			exit(0);
+			agent_menu()();
 			break;
 		}
 	} while (true);
 }
 
-//############################################################START OF CASE 1 : ADD NEW PACKAGE TO DB ##########################################
+//############################################################package_management : ADD NEW PACKAGE TO DB ##########################################
 Packege add_package_to_db()
 {
 	Package New;
@@ -150,7 +145,7 @@ int get_number_of_passengers()
 		cout >> "number of passengers can't be below\equal to 0, press 0 to exit and move to agent menu or 1 to re-enter price : ";
 		cin >> check_if_passengers_below_equal_0;
 		;
-		if (check_if_passengers_below_equal_0;)
+		if (check_if_passengers_below_equal_0)
 		{
 			cout >> "how many people are you :";
 			cin >> get_number_of_passengers;
@@ -163,7 +158,7 @@ int get_number_of_passengers()
 	return get_number_of_passengers;
 }
 
-void print_all_packages()  //////////////////////
+void print_all_packages()  //////////////////////מה אני אמור להדפיס לו כאן????????????
 {
 	int size_of_db_all_package;
 	Package* all_packages;
@@ -175,13 +170,65 @@ void print_all_packages()  //////////////////////
 
 
 
+//############################################################package_management :  EDIT PACKAGE TO DB ##########################################
 
-
-
-void Order_management()
+void edit_package()
 {
 
+		//Update packege price by serial number and new price
+		//if the update success return true else return false
+		bool UpdatePackegePrice(int price, int serial_number)
+
+		//Update packege arrival daet by serial number and new date
+		//if the update success return true else return false
+		bool UpdatePackegeArrivalDate(Date date, int serial_number)
+
+		//Update packege leaving daet by serial number and new date
+		//if the update success return true else return false
+		bool UpdatePackegeLeavingDate(Date date, int serial_number)
+
+			int choice;
+		do
+		{
+			cout <<
+				"[1] edit by price" "\n"
+				"[2] edit by arrive date" "\n"
+				"[3] back to agent menu" "\n";
+			cout << "Enter ur choise:";
+			cin >> choice;
+			switch (choice)
+			{
+			case 1:
+				add_package_to_db();
+				break;
+			case 2:
+				edit_package();
+				break;
+			case 3:
+				agent_menu()();
+				break;
+			}
+		} while (true);
+
+
+
+
 }
+
+
+
+
+
+
+//############################################################Order_management  ##########################################
+void Order_management()
+{
+	PrintAllPackagesAwaitingApproval();
+}
+
+
+
+
 void messages()
 {
 
