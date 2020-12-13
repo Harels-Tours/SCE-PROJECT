@@ -863,7 +863,7 @@ static int PrintAllPackagesCanceled()
 }
 
 
-/*
+
 
 
 // Checking the validity of an agent's detaisl by user name and password
@@ -871,7 +871,7 @@ static int PrintAllPackagesCanceled()
 //If the username exists and the password is incorrect return -1
 //If the username and password are correct return 0 
 //If the file opening failed return -3
-int CheckingValidityAgentDetials(const char* name, const char* password)
+static int CheckingValidityAgentDetials(const char* name, const char* password)
 {
     FILE* f = fopen("Agents.txt", "rt");
     if (f == NULL)
@@ -883,8 +883,6 @@ int CheckingValidityAgentDetials(const char* name, const char* password)
 
     char name_buffer[20];
     char password_buffer[20];
-
-
     while (fgets(agent_name, 99, f))
     {
         fgets(agent_password, 99, f);
@@ -901,8 +899,6 @@ int CheckingValidityAgentDetials(const char* name, const char* password)
             password_buffer[i] = agent_password[i];
         }
         password_buffer[strlen(agent_password) - 1] = '\0';
-
-
         if (strcmp(name_buffer, name) == 0)
         {
             if (strcmp(password_buffer, password) == 0)
@@ -912,9 +908,6 @@ int CheckingValidityAgentDetials(const char* name, const char* password)
             else
                 return-1;
         }
-
     }
-
     return -2;
 }
-*/
