@@ -94,6 +94,29 @@ static void Print_all_vacations(Packege* vacations, int size)
 
 
 
+////////////////////////////////////////////you have 2 Find_customer: 1)Find_customer , 2)Find_customer2
+/*
+ //  Find customer from DB by user name
+ static Client Find_customer(string user_name)
+ {
+	 Client* customer = getAllClients();
+
+	 const char* username1 = user_name.c_str();
+
+	 if (searchClientByUserName(username1) == -1)
+	 {
+		 cout << "user name not exist ""\n";
+		 return NULL;
+	 }
+	 if (searchClientByUserName(username1) == -2)
+	 {
+		 cout << "load file failed ""\n";
+		 return NULL;
+	 }
+	 return searchClientByUserName(username1);
+ }
+
+*/
 
 
 
