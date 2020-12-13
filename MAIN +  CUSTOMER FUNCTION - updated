@@ -996,45 +996,27 @@ static bool Email_check(string email)
 /*
 
 
-///////////NOT FINISH /////////////
+///////////login_as_agent /////////////
 void login_as_agent()
 {
-
-	agents* Agent_Information = get_all_agents();
+	int check_what_returns_from_CheckingValidityAgentDetials;
 	string username = get_username();
 	string password = get_password();
 	const char* username1 = username.c_str();
 	const char* password1 = password.c_str();
-	int size_of_agents = SizeOfAgentsFile();
-	bool keep_trying = true;
+	
+	check_what_returns_from_CheckingValidityAgentDetials = CheckingValidityAgentDetials(username1, password1);
+	if (check_what_returns_from_CheckingValidityAgentDetials == -2)
+		cout << "You are not registered in the system, contact with ur work manager ""\n";
+	if (check_what_returns_from_CheckingValidityAgentDetials == -1)
+		cout << " password is incorrect ""\n";
+	if (check_what_returns_from_CheckingValidityAgentDetials == 0)
+		agent_menu();
+	if (check_what_returns_from_CheckingValidityAgentDetials == -3)
+			cout << "file opening failed ""\n";
+			
+	home_page();
 
-
-	for (int i = 0; i < SizeOfAgentsFile; ++i)
-	{
-
-		if (strcmp(Agent_Information[i].username, username1) == 0)
-		{
-			while (keep_trying)
-			{
-				if (strcmp(Agent_Information[i].password, password1) == 0)
-				{
-					agent_menu();
-				}
-				else
-				{
-					std::cout << "Incorrect password do you want to re-enter the password? 0-No , 1-Yes " << endl;
-					std::cin >> keep_trying;
-					if (keep_trying)
-					{
-						password = get_password();
-						password1 = password.c_str();
-					}
-				}
-			}
-		}
-	}
-	std::cout << "You are not registered in the system, contact with ur work manager" "\n";
-	main_menu();
 }
 */
 ///////////NOT FINISH /////////////
