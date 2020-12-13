@@ -1,4 +1,3 @@
-
 //#include<stdio.h> 
 //#include<string.h>
 //#include<iostream>
@@ -28,13 +27,41 @@ static void register_user();
 static bool Check_if_user_name_exists(string user_name);
 static void main_menu();
 static void client_menu(string username);
-//static void agent_menu(string username);  /////////////// need to send user name ?????????
-
-
 static bool Email_check(string email);
-
 static void home_page();
+static void Order_management();
+static void messages();
+static Packege add_package_to_db();
+static string get_destination();
+static float get_price();
+static int get_number_of_passengers();
+static void print_all_packages();
+static void edit_package();
+static void agent_menu();
+///// STATMENT OF ADD NEW PACKAGE FUNCTION
+static void package_management();
 
+
+
+
+static Date get_start_date_of_package();
+static Date get_end_date_of_package();
+
+
+
+
+///// STATMENT OF ALL UPDATE FUNCTION
+static void edit_by_price();
+static void edit_by_arrive_date();
+static void edit_by_leave_date();
+static int get_serial_number();
+static void edit_by_arrive_date();
+
+
+///// STATMENT OF ALL OREDER MENGMENT FUNCTION
+static void Approve_cancel_order();
+static void Approve_order();
+static void Cancel_order();
 
 
 
@@ -45,7 +72,7 @@ int size_after_filter = PackegesfileSize();
 //המספר סידורי נכנס למקום הראשון במערך של הלקוח וכל השאר זזים מקום אחד קדימה כמו בתור
 static void AddToWishList(Client customer, int serialNumber)
 {
-	for(int i = 19; i < 0; i++)
+	for (int i = 19; i < 0; i++)
 	{
 		customer.wish_list[i] = customer.wish_list[i - 1];
 	}
@@ -65,6 +92,12 @@ static void Print_all_vacations(Packege* vacations, int size)
 	}
 }
 
+
+
+
+
+
+
 //  Find customer from DB by user name
 static Client Find_customer(string user_name)
 {
@@ -74,9 +107,9 @@ static Client Find_customer(string user_name)
 	for (int i = 0; i < size; i++)
 	{
 		if (customer[i].user_name == user_name)
-		return customer[i];
+			return customer[i];
 	}
-	std::cout <<"The user name not found " << endl;
+	std::cout << "The user name not found " << endl;
 
 }
 //  Find customer from DB by user name and return pointer to him(בשביל הפונקציה של ההודעות)
@@ -89,7 +122,7 @@ static Client* Find_customer2(string user_name)
 	for (int i = 0; i < size; i++)
 	{
 		if (customer[i].user_name == user_name)
-		return &customer[i];
+			return &customer[i];
 	}
 	std::cout << "The user name not found " << endl;
 
@@ -133,6 +166,7 @@ static void PrintWishList(Client customer)
 	}
 }
 
+
 // copy constructor for date
 static void Copy_date(Date* sourse, Date* target)
 {
@@ -140,15 +174,31 @@ static void Copy_date(Date* sourse, Date* target)
 	target->month = sourse->month;
 	target->year = sourse->year;
 }
+
+// copy constructor for date
+static void copy_message(Message* sourse, Message* target)
+{
+	for(int i =0; i<50;i++)
+		target->title[i] = sourse->title[i];
+	for (int i = 0; i < 300; i++)
+		target->content[i] = sourse->content[i];
+	for (int i = 0; i < 10; i++)
+		target->status[i] = sourse->status[i];
+	Copy_date(&(sourse->sending_date), &(target->sending_date));
+	for (int i = 0; i < 300; i++)
+		target->response[i] = sourse->response[i];
+}
+
+
 // copy constructor for vacation
 
 static void Copy_vacations(Packege* sourse, Packege* target)
 {
 	target->number_of_passengers = sourse->number_of_passengers;
-	Copy_date(&(sourse->start),&( target->start));
+	Copy_date(&(sourse->start), &(target->start));
 	Copy_date(&(sourse->end), &(target->end));
 	for (int i = 0; i < 100; i++)
-		target->destination[i] = sourse->destination[i]; 
+		target->destination[i] = sourse->destination[i];
 	target->price = sourse->price;
 	target->serial_number = sourse->serial_number;
 	for (int i = 0; i < 20; i++)
@@ -213,7 +263,7 @@ static bool Payment(int x)
 	string full_name;
 	bool choise = true;
 	if (index_where_the_pacakge_is == -1)
-		std:: cout << "Error , package is'nt exist" << endl;
+		std::cout << "Error , package is'nt exist" << endl;
 	else
 	{
 		price = vacation[index_where_the_pacakge_is].price;
@@ -345,7 +395,7 @@ static void Order_vacation(int Serial_number)
 					}
 					else
 					{
-						UpdatePackegeStatus(3,Serial_number);
+						UpdatePackegeStatus(3, Serial_number);
 						std::cout << "Payment canceled " << endl;
 						return;
 					}
@@ -363,7 +413,7 @@ static void Order_vacation(int Serial_number)
 //return size of vacations by location
 static int Get_size_vacations_by_location(Packege* vacations, string location)
 {
-	
+
 	int counter = 0;
 	for (int i = 0; i < size_after_filter; i++)
 	{
@@ -547,7 +597,7 @@ static void Package_filtering()
 	}
 	else
 	{
-		UpdatePackegeStatus(1,Serial_number_selected);
+		UpdatePackegeStatus(1, Serial_number_selected);
 		Order_vacation(Serial_number_selected);
 	}
 }
@@ -607,7 +657,7 @@ static void Find_vacation()
 		}
 		else
 		{
-			UpdatePackegeStatus(1,Serial_number_selected);
+			UpdatePackegeStatus(1, Serial_number_selected);
 			Order_vacation(Serial_number_selected);
 		}
 	}
@@ -691,6 +741,377 @@ static void Masseges(string user_name)
 			check = true;
 	}
 }
+
+
+
+static void package_management()
+{
+	int choice;
+	do
+	{
+		cout <<
+			"[1] add new package" "\n"
+			"[2] edit package" "\n"
+			"[3] back to agent menu" "\n";
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			add_package_to_db();
+			break;
+		case 2:
+			edit_package();
+			break;
+		case 3:
+			agent_menu();
+			break;
+		}
+	} while (true);
+}
+
+static Packege add_package_to_db()
+{
+	Packege New;
+	Date start_of_package, end_of_package;
+
+	string destination;
+	float price;
+	int day, month, year, number_of_passengers;
+
+	start_of_package = get_start_date_of_package();
+	end_of_package = get_end_date_of_package();
+
+	destination = get_destination();
+	const char* p_destination = destination.c_str();
+
+	price = get_price();
+	number_of_passengers = get_number_of_passengers();
+
+
+
+	New = creatNewPackege(p_destination, price, start_of_package, end_of_package, number_of_passengers);
+
+	if (setPackegeToDB(New))
+	{
+		cout << "package added successfully" "\n";
+	}
+	else
+		cout << "Failed to add package, contact your administrator " "\n";
+
+	print_all_packages();
+
+
+
+}
+
+static Date get_start_date_of_package()
+{
+	Date start;
+	int day, month, year;
+	cout << "Enter start date of package:dd/mm/yyyy:";
+	cin >> day >> month >> year;
+	start = getNewDate(day, month, year);
+	return start;
+
+}
+
+static Date get_end_date_of_package()
+{
+	Date end;
+	int day, month, year;
+	cout << "Enter start date of package:dd/mm/yyyy:";
+	cin >> day >> month >> year;
+	end = getNewDate(day, month, year);
+	return end;
+}
+
+static string get_destination()
+{
+	bool check_if_re_enter;
+	string destination;
+	cout << "Enter destination :";
+	while (destination.size() >= 100)
+	{
+		cout << "destination name must be up to 100 characters, press 0 to exit and move to agent menu or 1 to re-enter destination name: ";
+		cin >> check_if_re_enter;
+		if (check_if_re_enter)
+		{
+			cout << "enter destination name: ";
+			cin >> destination;
+
+		}
+		else
+			agent_menu();
+
+	}
+	return destination;
+}
+
+static float get_price()
+{
+	bool check_if_price_below_equal_0;
+	float price;
+	cout << "Enter price :";
+	while (price <= 0)
+	{
+		cout << "price can't be below\equal to 0, press 0 to exit and move to agent menu or 1 to re-enter price : ";
+		cin >> check_if_price_below_equal_0;
+		if (check_if_price_below_equal_0)
+		{
+			cout << "enter new price: ";
+			cin >> price;
+
+		}
+		else
+			agent_menu();
+
+	}
+	return price;
+}
+
+static int get_number_of_passengers()
+{
+	bool check_if_passengers_below_equal_0;
+	int get_number_of_passengers;
+	cout << "how many people are you :";
+	cin >> get_number_of_passengers;
+	while (get_number_of_passengers <= 0)
+	{
+		cout << "number of passengers can't be below\equal to 0, press 0 to exit and move to agent menu or 1 to re-enter price : ";
+		cin >> check_if_passengers_below_equal_0;
+		;
+		if (check_if_passengers_below_equal_0)
+		{
+			cout << "how many people are you :";
+			cin >> get_number_of_passengers;
+
+		}
+		else
+			agent_menu();
+
+	}
+	return get_number_of_passengers;
+}
+
+static void print_all_packages()
+{
+	int size_of_db_all_package;
+	Packege* all_packages;
+	all_packages = getAllPackeges();
+	size_of_db_all_package = PackegesfileSize();
+	for (int i = 0; i < size_of_db_all_package; ++i)
+	{
+		printPackege(all_packages[i]);
+	}
+}
+
+
+
+//############################################################package_management :  EDIT PACKAGE TO DB ##########################################
+
+static void edit_package()
+{
+	int choice;
+	do
+	{
+		cout <<
+			"[1] edit by price" "\n"
+			"[2] edit by arrive date" "\n"
+			"[3] edit by leave date" "\n"
+			"[4] back to agent menu" "\n";
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			edit_by_price();
+			break;
+		case 2:
+			edit_by_arrive_date();
+			break;
+		case 3:
+			edit_by_leave_date();
+			break;
+		case 4:
+			agent_menu();
+			break;
+		}
+	} while (true);
+}
+
+static void edit_by_price()
+{
+	int serial_number;
+	float new_price;
+	print_all_packages();
+	new_price = get_price();
+	serial_number = get_serial_number();
+	if (UpdatePackegePrice(new_price, serial_number))
+		cout << "price has updated succesfiyl""\n";
+	else
+		cout << "price has updated failed""\n";
+	edit_package();
+
+}
+
+static int get_serial_number()
+{
+	print_all_packages();
+	int serial_number;
+	cout << "enter serial number of package that u want to edit:";
+	cin >> serial_number;
+	if (searchPackegeBySerialNumber(serial_number) != -1 && searchPackegeBySerialNumber(serial_number) != -2)
+	{
+		return serial_number;
+	}
+	return -1;
+}
+
+static void edit_by_arrive_date()
+{
+	Date arrival_date;
+	int serial_number;
+	serial_number = get_serial_number();
+	arrival_date = get_start_date_of_package();
+	if (UpdatePackegeArrivalDate(arrival_date, serial_number))
+		cout << "arrive date has updated succesfiyl""\n";
+	else
+		cout << "arrive date has updated failed""\n";
+
+	edit_package();
+
+}
+
+static void edit_by_leave_date()
+{
+	Date leave_date;
+	int serial_number;
+	serial_number = get_serial_number();
+	leave_date = get_end_date_of_package();
+	if (UpdatePackegeLeavingDate(leave_date, serial_number))
+		cout << "leave date has updated succesfiyl""\n";
+	else
+		cout << "leave date has updated failed""\n";
+
+	edit_package();
+}
+
+//############################################################Order_management  ##########################################
+
+
+static void Order_management()
+{
+
+	int choice;
+	do
+	{
+		cout <<
+			"[1] Approve/cancel order" "\n"
+			"[2] back to agent menu" "\n";
+
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			Approve_cancel_order();
+			break;
+		case 2:
+			agent_menu();
+			break;
+		}
+	} while (true);
+}
+
+static void Approve_cancel_order()
+{
+	int choice;
+	do
+	{
+		cout <<
+			"[1] Approve order" "\n"
+			"[2] Cancel order" "\n";
+
+		cout << "Enter ur choise:";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			Approve_order();
+			break;
+		case 2:
+			Cancel_order();
+			break;
+		}
+	} while (true);
+
+}
+
+static void Approve_order()
+{
+	int serial_number;
+	if (PrintAllPackagesAwaitingApproval() == -2)
+	{
+		cout << "there is no packages that waits for you""\n";
+
+	}
+	else
+	{
+		cout << "enter serial number of package that u want to approve:";
+		cin >> serial_number;
+		if (UpdatePackegeStatus(2, serial_number))
+			cout << "Updated to approve successfully""\n";
+		else
+			cout << "Updated to approve failed ""\n";
+	}
+
+	Order_management();
+}
+
+static void Cancel_order()
+{
+	int serial_number;
+	if (PrintAllPackagesAwaitingApproval() == -2)
+	{
+		cout << "there is no packages that waits for you""\n";
+
+	}
+	else
+	{
+		cout << "enter serial number of package that u want to approve:";
+		cin >> serial_number;
+		if (UpdatePackegeStatus(3, serial_number))
+			cout << "Updated to cancel successfully""\n";
+		else
+			cout << "Updated to cancel failed ""\n";
+	}
+
+	Order_management();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -997,6 +1418,7 @@ static bool Email_check(string email)
 
 
 
+
 ///////////login_as_agent /////////////
 void login_as_agent()
 {
@@ -1005,17 +1427,17 @@ void login_as_agent()
 	string password = get_password();
 	const char* username1 = username.c_str();
 	const char* password1 = password.c_str();
-	
+
 	check_what_returns_from_CheckingValidityAgentDetials = CheckingValidityAgentDetials(username1, password1);
 	if (check_what_returns_from_CheckingValidityAgentDetials == -2)
 		cout << "You are not registered in the system, contact with ur work manager ""\n";
 	if (check_what_returns_from_CheckingValidityAgentDetials == -1)
 		cout << " password is incorrect ""\n";
 	if (check_what_returns_from_CheckingValidityAgentDetials == 0)
-		agent_menu();
+		//agent_menu();
 	if (check_what_returns_from_CheckingValidityAgentDetials == -3)
-			cout << "file opening failed ""\n";
-			
+		cout << "file opening failed ""\n";
+
 	home_page();
 
 }
@@ -1023,9 +1445,10 @@ void login_as_agent()
 
 
 ///////////NOT FINISH /////////////
-/*
 
-void agent_menu() {
+
+
+static void agent_menu() {
 	int choice;
 
 	do
@@ -1041,13 +1464,13 @@ void agent_menu() {
 		switch (choice)
 		{
 		case 1:
-			package_management();
+			//package_management();
 			break;
 		case 2:
-			Order_management();
+			//Order_management();
 			break;
 		case 3:
-			messages();
+			//messages();
 			break;
 		case 4:
 			home_page();
@@ -1058,7 +1481,7 @@ void agent_menu() {
 		}
 	} while (true);
 };
-*/
+
 
 
 
@@ -1068,5 +1491,3 @@ int main()
 	home_page();
 	return 0;
 }
-
-
