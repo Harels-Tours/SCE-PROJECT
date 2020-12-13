@@ -62,7 +62,7 @@ static void edit_by_arrive_date();
 static void Approve_cancel_order();
 static void Approve_order();
 static void Cancel_order();
-
+static void login_as_agent();
 
 
 
@@ -1165,7 +1165,7 @@ static void main_menu()
 			login_as_client();
 			break;
 		case 2:
-			//login_as_agent();
+			login_as_agent();
 			break;
 		case 3:
 			exit(1);
@@ -1420,7 +1420,7 @@ static bool Email_check(string email)
 
 
 ///////////login_as_agent /////////////
-void login_as_agent()
+static void login_as_agent()
 {
 	int check_what_returns_from_CheckingValidityAgentDetials;
 	string username = get_username();
