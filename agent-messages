@@ -1,0 +1,70 @@
+bool respone(string name);
+string get_response();
+void messages();
+
+
+
+void messages()
+{
+	int index;
+	string  name;
+	
+	if (PrintAllUnReadMasseges() == -2)
+		cout << "failed to open file""\n";
+	else if (PrintAllUnReadMasseges() == -1)
+		cout << "There is no new messages""\n";
+	else
+	{
+		name = get_username();
+		if(respone(name));
+	}
+	
+}
+
+
+bool respone(string name)
+{
+	
+	Client* client = getAllClients();
+	Message message;
+	string response;	
+	const char* name1 = name.c_str();
+	int index_of_client_in_db = searchClientByUserName(name1);
+	if (index_of_client_in_db == -1)
+	{
+		return false;
+	}
+	else if (index_of_client_in_db == -2)
+	{
+		return false;
+	}
+	else
+	{
+		response = get_response();
+		const char* response1 = response.c_str();
+		if (UpdateClientMessageResponse(name1, response1, index_of_client_in_db))
+		{
+			if(UpdateClientMessage(name1, message[index_of_client_in_db]))
+				return true;
+			return false;
+		}
+		return false;
+	}
+	return false;
+}
+
+
+string get_response()
+{
+	string new_response;
+	cout << "enter new_response , should be up tp 300 characters:";
+	cin >> new_response;
+	while (new_response.size() > 300)
+	{
+		cout << " respone should be up to 300 characters,re enter:";
+		cin >> new_response;
+	}
+	return new_response;
+}
+
+
