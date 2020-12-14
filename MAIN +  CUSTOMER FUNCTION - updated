@@ -1097,7 +1097,7 @@ static void Approve_order()
 static void Cancel_order()
 {
 	int serial_number;
-	if (PrintAllPackagesAwaitingApproval() == -2)
+	if (PrintAllPackagesAwaitingApproval() == -2 ||  (PrintAllPackagesAwaitingApproval() == -1))
 	{
 		cout << "there is no packages that waits for you""\n";
 
