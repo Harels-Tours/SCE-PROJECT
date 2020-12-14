@@ -288,7 +288,7 @@ static Message creatNewMessage(char* title, char* content)
 }
 
 //get user name, response and message index and update the response and the massege status to Answer
-static bool UpdateClientMessageResponse(char* user_name, char* response, int message_index)
+static bool UpdateClientMessageResponse(const char* user_name, const char* response, int message_index)
 {
     int index = searchClientByUserName(user_name);
 
