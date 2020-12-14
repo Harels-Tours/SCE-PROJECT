@@ -876,7 +876,7 @@ static float get_price()
 {
 	bool check_if_price_below_equal_0;
 	float price;
-	cout << "Enter price :"<<endl;
+	cout << "Enter price :";
 	cin >> price;
 	while (price <= 0)
 	{
