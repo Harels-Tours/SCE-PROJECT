@@ -970,8 +970,8 @@ static void edit_by_price()
 	int serial_number;
 	float new_price;
 	print_all_packages();
-	new_price = get_price();
 	serial_number = get_serial_number();
+	new_price = get_price();
 	if (UpdatePackegePrice(new_price, serial_number))
 		cout << "price has updated succesfiyl""\n";
 	else
