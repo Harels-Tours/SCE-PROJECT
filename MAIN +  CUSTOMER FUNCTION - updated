@@ -982,7 +982,6 @@ static void edit_by_price()
 
 static int get_serial_number()
 {
-	print_all_packages();
 	int serial_number;
 	cout << "enter serial number of package that u want to edit:";
 	cin >> serial_number;
