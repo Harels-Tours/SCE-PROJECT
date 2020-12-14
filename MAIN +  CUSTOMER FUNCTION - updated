@@ -854,6 +854,7 @@ static string get_destination()
 	int check_if_re_enter;
 	string destination;
 	cout << "Enter destination :";
+	cin >> destination;
 	while (destination.size() >= 100)
 	{
 		cout << "destination name must be up to 100 characters, press 0 to exit and move to agent menu or 1 to re-enter destination name: ";
