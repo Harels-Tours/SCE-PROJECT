@@ -766,6 +766,7 @@ static void package_management()
 	int choice;
 	do
 	{
+		print_all_packages();
 		cout <<
 			"[1] add new package" "\n"
 			"[2] edit package" "\n"
@@ -831,7 +832,7 @@ static Date get_end_date_of_package()
 {
 	Date end;
 	int day, month, year;
-	cout << "Enter start date of package:";
+	cout << "Enter end date of package:";
 	cout << "day:" << endl;
 	cin >> day;
 	cout << "month:" << endl;
@@ -869,8 +870,8 @@ static string get_destination()
 static float get_price()
 {
 	int check_if_price_below_equal_0;
-	float price ;
-	cout << "Enter price :" << endl;
+	float price;
+	cout << "Enter price :";
 	cin >> price;
 	while (price <= 0)
 	{
@@ -1005,22 +1006,21 @@ static void edit_package()
 
 static void edit_by_price()
 {
+	print_all_packages();
+
 	int serial_number;
 	float new_price;
-	print_all_packages();
-	new_price = get_price();
 	serial_number = get_serial_number();
+	new_price = get_price();
 	if (UpdatePackegePrice(new_price, serial_number))
 		cout << "price has updated succesfiyl""\n";
 	else
 		cout << "price has updated failed""\n";
 	edit_package();
-
 }
 
 static int get_serial_number()
 {
-	print_all_packages();
 	int serial_number;
 	cout << "enter serial number of package that u want to edit:";
 	cin >> serial_number;
@@ -1033,6 +1033,7 @@ static int get_serial_number()
 
 static void edit_by_arrive_date()
 {
+	print_all_packages();
 	Date arrival_date;
 	int serial_number;
 	serial_number = get_serial_number();
@@ -1048,6 +1049,7 @@ static void edit_by_arrive_date()
 
 static void edit_by_leave_date()
 {
+	print_all_packages();
 	Date leave_date;
 	int serial_number;
 	serial_number = get_serial_number();
@@ -1135,19 +1137,19 @@ static void Approve_order()
 static void Cancel_order()
 {
 	int serial_number;
-	if (PrintAllPackagesAwaitingApproval() == -2|| PrintAllPackagesAwaitingApproval() == -1)
+	if (PrintAllPackagesAwaitingApproval() == 1)
 	{
-		cout << "there is no packages that waits for you""\n";
-
+		cout << "enter serial number of package that u want to cancel:";
+		cin >> serial_number;
+		if (UpdatePackegeStatus(3, serial_number))
+			cout << "Updated to approve successfully""\n";
+		else
+			cout << "Updated to approve failed ""\n";
 	}
 	else
 	{
-		cout << "enter serial number of package that u want to approve:";
-		cin >> serial_number;
-		if (UpdatePackegeStatus(3, serial_number))
-			cout << "Updated to cancel successfully""\n";
-		else
-			cout << "Updated to cancel failed ""\n";
+		cout << "there is no packages that waits for you""\n";
+
 	}
 
 	Order_management();
