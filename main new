@@ -1114,19 +1114,19 @@ static void Approve_cancel_order()
 static void Approve_order()
 {
 	int serial_number;
-	if (PrintAllPackagesAwaitingApproval() == -2 || PrintAllPackagesAwaitingApproval() == -1)
-	{
-		cout << "there is no packages that waits for you""\n";
-
-	}
-	else
+	if (PrintAllPackagesAwaitingApproval() == 1 )
 	{
 		cout << "enter serial number of package that u want to approve:";
 		cin >> serial_number;
-		if (UpdatePackegeStatus(2, serial_number))
+		if (UpdatePackegeStatus(4, serial_number))
 			cout << "Updated to approve successfully""\n";
 		else
 			cout << "Updated to approve failed ""\n";
+	}
+	else
+	{
+		cout << "there is no packages that waits for you""\n";
+
 	}
 
 	Order_management();
