@@ -317,9 +317,8 @@ static void Order_status(string user_name)
 
 static void Order_vacation(int Serial_number)
 {
-	char* user_name = new char[15];
-	char* name = new char[10];
-	char* last_name = new char[10];
+	string user, name1, last;
+	const char* user_name1;
 	bool check2 = false;
 	int choise, phone, temp, x = 1;
 	bool check, check3;
@@ -330,7 +329,7 @@ static void Order_vacation(int Serial_number)
 		if (vacations[i].serial_number == Serial_number)
 		{
 
-			check = true;
+			check2 = true;
 			std::cout << "To order now press 1/n To Back Press 2 " << endl;
 			std::cin >> choise;
 			while (choise > 2 || choise < 1)
@@ -341,12 +340,16 @@ static void Order_vacation(int Serial_number)
 			if (choise == 1)
 			{
 				std::cout << "Enter a username" << endl;
-				std::cin >> user_name;
+				std::cin >> user;
 				std::cout << "Enter a name" << endl;
-				std::cin >> name;
+				std::cin >> name1;
 				std::cout << "Enter a last name" << endl;
-				std::cin >> last_name;
+				std::cin >> last;
 				std::cout << "Enter a phone number" << endl;
+				const char* user_name = user.c_str();
+				user_name1 = user_name;
+				const char* name = name1.c_str();
+				const char* last_name = last.c_str();
 				std::cin >> phone;
 				//בדיקת תקינות מס טלפון
 				while (x != 10)
@@ -368,7 +371,7 @@ static void Order_vacation(int Serial_number)
 				if (!check3)
 				{
 					std::cout << "The system was unable to update the package information" << endl;
-					agent_menu();
+					client_menu(user_name);
 				}
 				else
 				{
@@ -378,24 +381,26 @@ static void Order_vacation(int Serial_number)
 						std::string username(user_name);
 						UpdatePackegeStatus(2, Serial_number);
 						Order_status(username);
-						//Find_vacation();
+						client_menu(user_name);
 
 					}
 					else
 					{
 						UpdatePackegeStatus(3, Serial_number);
 						std::cout << "Payment canceled " << endl;
-						return;
+						client_menu(user_name);
 					}
 				}
 			}
 			if (choise == 2)
-				return;
+				client_menu(user_name1);
 		}
 	}
 	if (!check2)
+	{
 		std::cout << "Serial number not exist " << endl;
-	return;
+		client_menu(user_name1);
+	}
 }
 
 //return size of vacations by location
@@ -1132,7 +1137,7 @@ static void Approve_order()
 static void Cancel_order()
 {
 	int serial_number;
-	if (PrintAllPackagesAwaitingApproval() == -2 || (PrintAllPackagesAwaitingApproval() == -1 )
+	if (PrintAllPackagesAwaitingApproval() == -2)
 	{
 		cout << "there is no packages that waits for you""\n";
 
