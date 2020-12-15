@@ -880,6 +880,53 @@ int PrintAllUnReadMasseges()
 
 
 
+// Checking the validity of an agent's detaisl by user name and password
+//if the user name dont exist return - 2
+//If the username exists and the password is incorrect return -1
+//If the username and password are correct return 0 
+//If the file opening failed return -3
+static int CheckingValidityAgentDetials(const char* name, const char* password)
+{
+    FILE* f = fopen("Agents.txt", "rt");
+    if (f == NULL)
+        return -3;
+
+    char agent_name[100];
+    char agent_password[100];
+    char signed_char[100];
+
+    char name_buffer[20];
+    char password_buffer[20];
+    while (fgets(agent_name, 99, f))
+    {
+        fgets(agent_password, 99, f);
+        fgets(signed_char, 99, f);
+
+        for (int i = 0; i < (strlen(agent_name)); i++)
+        {
+            name_buffer[i] = agent_name[i];
+        }
+        name_buffer[strlen(agent_name) - 1] = '\0';
+
+        for (int i = 0; i < (strlen(agent_password)); i++)
+        {
+            password_buffer[i] = agent_password[i];
+        }
+        password_buffer[strlen(agent_password) - 1] = '\0';
+        if (strcmp(name_buffer, name) == 0)
+        {
+            if (strcmp(password_buffer, password) == 0)
+            {
+                return 0;
+            }
+            else
+                return-1;
+        }
+    }
+    return -2;
+}
+
+
 int main()
 {
 	/*Date a;
