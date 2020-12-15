@@ -932,9 +932,8 @@ static void Reply_to_messages_by_an_agent()
 	string respone;
 	string user_name;
 	int choise, index;
-	if (PrintAllUnReadMasseges() == -1)
-		cout << "failed to open file" << endl;
-	else
+
+	if (PrintAllUnReadMasseges() == 1)
 	{
 		std::cout << "To respond select 1, return to the menu Select 0" << endl;
 		std::cin >> choise;
@@ -943,7 +942,7 @@ static void Reply_to_messages_by_an_agent()
 			std::cout << "Wrong choice Please try again" << endl;
 			std::cin >> choise;
 		}
-		while(choise == 1)
+		while (choise == 1)
 		{
 			std::cout << "enter user name of Client that you respone him:" << endl;
 			std::cin >> user_name;
@@ -959,14 +958,22 @@ static void Reply_to_messages_by_an_agent()
 				std::cin >> respone;
 			}
 			check = UpdateClientMessageResponse(user_name_new, respone_new, index);
-			if(check)
-				std::cout << "The response was received " << endl;
+			if (check)
+				std::cout << "The response was sent " << endl;
 			else
-				std::cout << "No response was received. Please try again " << endl;
-			std::cout << "To respond select 1, return to the menu Select 0" << endl;
-			std::cin >> choise;
+				std::cout << "No response wasn't sent. Please try again " << endl;
 		}
 		agent_menu();
+	}
+	else if (PrintAllUnReadMasseges()==-1) 
+	{
+		cout << "failed to open file" << endl;
+
+	}
+	else 
+	{
+		cout << "There is no messages" << endl;
+
 	}
 }
 
