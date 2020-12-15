@@ -1123,8 +1123,8 @@ static void Approve_cancel_order()
 static void Approve_order()
 {
 	int serial_number;
-	if (PrintAllPackagesAwaitingApproval() == 1 )
-	{
+
+	if (PrintAllPackagesAwaitingApproval() == 1) {
 		cout << "enter serial number of package that u want to approve:";
 		cin >> serial_number;
 		if (UpdatePackegeStatus(4, serial_number))
@@ -1132,33 +1132,33 @@ static void Approve_order()
 		else
 			cout << "Updated to approve failed ""\n";
 	}
-	else
-	{
+	else if (PrintAllPackagesAwaitingApproval()==0) {
 		cout << "there is no packages that waits for you""\n";
-
 	}
-
+	else {
+		cout << "fail to open file""\n";
+	}
 	Order_management();
 }
 
 static void Cancel_order()
 {
 	int serial_number;
-	if (PrintAllPackagesAwaitingApproval() == 1)
-	{
+
+	if (PrintAllPackagesAwaitingApproval() == 1) {
 		cout << "enter serial number of package that u want to cancel:";
 		cin >> serial_number;
 		if (UpdatePackegeStatus(3, serial_number))
-			cout << "Updated to approve successfully""\n";
+			cout << "Updated to cancel successfully""\n";
 		else
-			cout << "Updated to approve failed ""\n";
+			cout << "Updated to cancel failed ""\n";
 	}
-	else
-	{
+	else if (PrintAllPackagesAwaitingApproval() == 0) {
 		cout << "there is no packages that waits for you""\n";
-
 	}
-
+	else {
+		cout << "fail to open file""\n";
+	}
 	Order_management();
 }
 
