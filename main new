@@ -318,7 +318,6 @@ static void Order_status(string user_name)
 static void Order_vacation(int Serial_number)
 {
 	string user, name1, last;
-	const char* user_name1;
 	bool check2 = false;
 	int choise, phone, temp, x = 1;
 	bool check, check3;
@@ -347,7 +346,6 @@ static void Order_vacation(int Serial_number)
 				std::cin >> last;
 				std::cout << "Enter a phone number" << endl;
 				const char* user_name = user.c_str();
-				user_name1 = user_name;
 				const char* name = name1.c_str();
 				const char* last_name = last.c_str();
 				std::cin >> phone;
@@ -393,13 +391,13 @@ static void Order_vacation(int Serial_number)
 				}
 			}
 			if (choise == 2)
-				client_menu(user_name1);
+				client_menu(user);
 		}
 	}
 	if (!check2)
 	{
 		std::cout << "Serial number not exist " << endl;
-		client_menu(user_name1);
+		client_menu(user);
 	}
 }
 
